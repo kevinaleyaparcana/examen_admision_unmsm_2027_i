@@ -56,27 +56,6 @@ const D="1rz1sf1u61uv1vb1y11zh20x22322824v25x26228828v2ac2ao2bn2by2cd2d92dg2e42e
 const AUS=38,CUT=1404.5,N=S.length,mean=S.reduce((a,b)=>a+b)/N,sd=Math.sqrt(S.reduce((a,b)=>a+(b-mean)**2,0)/N);
 const med=S[N>>1],mxv=S[N-1],$=id=>document.getElementById(id),f=(x,d=1)=>x.toLocaleString('es-PE',{minimumFractionDigits:d,maximumFractionDigits:d});
 $('k').innerHTML=[[N.toLocaleString('es-PE'),'Postulantes con puntaje'],[f(mean,2),'Media'],[f(sd,2),'Desv. estándar (σ)'],[f(med,2),'Mediana'],[f(mxv,2),'Puntaje máximo'],[f((mxv-mean)/sd,2)+' σ','Máximo estandarizado'],[S.filter(x=>x>=CUT).length,'Vacantes (corte '+f(CUT,1)+')']].map(a=>`<div class="c"><b>${a[0]}</b><span>${a[1]}</span></div>`).join('');
-
-<!-- INSIGHT BANNER -->
-  <div class="insight">
-    <div class="insight-item">
-      <span class="insight-text">· A medida que el puntaje aumenta, la cantidad de estudiantes se va reduciendo. Al llegar a los 1630 puntos la cantidad llega a cero (0). Sin embargo, luego de un salto grande y atípico de 110.75 puntos, recién aparecen los 3 primeros puestos.</span>
-    </div>
-    <div class="insight-item">
-      <span class="insight-tag">⏰ Puntajes más altos atípicos </span>
-      <span class="insight-text">· Estandarizar los puntajes permite comparar con otros exámenes. En el examen 2022-II el primer puesto estuvo a 3.5 desviaciones estándar (𝜎) de distancia del puntaje promedio y la distribución no era discontinua.</span>
-    </div>
-    <div class="insight-item">
-      <span class="insight-tag">✅ Distribución 2022-II (puntajes estandarizados)</span>
-      <span class="insight-text"><strong>36</strong> mesas con registro anterior a 07:00 fueron llevadas a 07:00.</br>
-        <strong>01</strong> mesa con registro posterior a 14:00 fue llevada a 14:00.</span>
-    </div>
-    <div class="insight-item">
-      <span class="insight-tag">⚠️ Distribución 2027-I (puntajes estandarizados)</span>
-      <span class="insight-text">· En el 2027-I, la distribución es muy similar y también llega a cero a las 3.5 𝜎. Sin embargo, luego de una discontinuidad recién aparecen los 3 primeros puestos, ubicados a 4 𝜎. Esto es bastante atípico.</span>
-    </div>
-  </div>
-  
 const sv=document.documentElement,cs=n=>getComputedStyle(sv).getPropertyValue(n);
 function st(){return{bw:+$('bw').value,mn:+$('mn').value,mx:+$('mx').value,ax:$('ax').value,log:$('sc').value=='log'}}
 function draw(){const s=st();if(s.mx<=s.mn+s.bw){s.mx=s.mn+s.bw*2}

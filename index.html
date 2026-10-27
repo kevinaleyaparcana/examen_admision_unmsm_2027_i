@@ -293,8 +293,8 @@
           <span class="insight-tag">📊 Puntajes más altos atípicos</span>
           <span class="insight-text"
             >· A medida que el puntaje aumenta, la cantidad de estudiantes se va reduciendo. Al llegar a los
-            1630 puntos la cantidad llega a cero (0). Sin embargo, luego de un salto grande y atípico de
-            110.75 puntos, recién aparecen los 3 primeros puestos.</span
+            1625 puntos la cantidad llega a cero (0). Sin embargo, luego de un salto grande y atípico de
+            111 puntos, recién aparecen los 3 primeros puestos.</span
           >
         </div>
         <div class="insight-item">
@@ -310,9 +310,11 @@
         <div class="insight-item">
           <span class="insight-tag">⚠️ Distribución 2027-I (puntajes estandarizados)</span>
           <span class="insight-text"
-            >· En el 2027-I, la distribución es muy similar y también llega a cero a las 3.5 𝜎. Sin embargo,
-            luego de una discontinuidad recién aparecen los 3 primeros puestos, ubicados a más de 4 𝜎. Esto es
-            bastante atípico.</span
+            >· En el 2027-I, la distribución es muy similar y también llega a cero a las 3.5 𝜎.</span
+          >
+          <span class="insight-text"
+            >· Sin embargo, luego de una discontinuidad recién aparecen los 3 primeros puestos, ubicados a 
+            más de 4 𝜎. Esto es bastante atípico.</span
           >
         </div>
       </div>
@@ -369,11 +371,48 @@
         </div>
       </div>
 
+      <!-- SECCIÓN 2022-II (repetición): CONTROLES + HISTOGRAMA -->
+      <div class="g" id="b-sec" style="margin-top: 12px">
+        <div class="c">
+          <h2>Controles · 2022-II</h2>
+          <label>Ancho de clase (pts)<b id="b-vb"></b></label>
+          <input id="b-bw" type="range" min="5" max="150" step="5" value="50" />
+          <label>Puntaje mínimo<b id="b-vmn"></b></label>
+          <input id="b-mn" type="range" min="100" max="1550" step="10" value="100" />
+          <label>Puntaje máximo<b id="b-vmx"></b></label>
+          <input id="b-mx" type="range" min="150" max="1650" step="10" value="1650" />
+          <label>Eje X</label>
+          <select id="b-ax">
+            <option value="p">Puntaje bruto</option>
+            <option value="z">Puntaje estandarizado (σ)</option>
+          </select>
+          <label>Eje Y</label>
+          <select id="b-sc">
+            <option value="lin">Lineal</option>
+            <option value="log">Logarítmico</option>
+          </select>
+          <div class="ck"><input type="checkbox" id="b-nm" checked /><span>Curva normal ajustada</span></div>
+          <div class="ck"><input type="checkbox" id="b-kd" checked /><span>Densidad suavizada (kernel)</span></div>
+          <div class="ck"><input type="checkbox" id="b-lb" checked /><span>Etiquetas de frecuencia</span></div>
+          <div class="ck">
+            <input type="checkbox" id="b-va" checked /><span>Resaltar vacantes (≥ puntaje de corte)</span>
+          </div>
+          <div class="ck"><input type="checkbox" id="b-sg" checked /><span>Líneas de media y ±σ</span></div>
+          <button id="b-rs">Restablecer</button>
+          <button id="b-tail">Zoom a la cola superior (&gt; 3σ)</button>
+        </div>
+        <div class="c">
+          <h2 id="b-ct"></h2>
+          <svg id="b-ch" viewBox="0 0 820 440"></svg>
+          <div class="n" id="b-nt"></div>
+        </div>
+      </div>
+
       <!-- NOTAS METODOLÓGICAS -->
       <p class="n">
-        Notas: n = postulantes con puntaje (se excluyen 38 ausentes). σ = desviación estándar poblacional; z =
+        Notas: n = postulantes con puntaje (se excluyen 38 ausentes en 2027-I y 783 en 2022-II repetición). σ = desviación estándar poblacional; z =
         (puntaje − media)/σ. La densidad kernel (gaussiano, ancho de banda de Silverman) y la curva normal se
-        escalan a frecuencia. «Vacantes» = 55 postulantes con observación «ALCANZÓ VACANTE». No se incluyen
+        escalan a frecuencia. «Vacantes» = 55 postulantes (2027-I) y 56 (2022-II) con observación «ALCANZÓ VACANTE». No se incluyen
         nombres.
       </p>
 
@@ -763,6 +802,301 @@
       // Redibuja al cambiar el tema claro/oscuro y primera ejecución
       matchMedia("(prefers-color-scheme:dark)").addEventListener("change", draw);
       draw();
+    </script>
+
+    <!-- Script de la sección 2022-II (repetición): histograma independiente -->
+    <script>
+      (function () {
+        // ===== SECCIÓN 2022-II (repetición): datos y estadísticos propios =====
+        // Ámbito aislado (función autoejecutable): no choca con las variables del tablero 2027-I.
+        const D = [
+          "10319f1ba1d11e31ea1ef1eo1es1gj1gv1hz1if1j61lh1lm1lo1lz1m21nd1ni1pd1q21qb1qi1qm1qr1r21s71s71s71si1tk",
+          "1v01vi1vk1w71ww1ww1x91xi1xt1y51yg1zg1zp1zy20920920920g20w21e21l21l21u22322i22i22w22w22w230233237239",
+          "23y24024w25y26026a26a26a26c26s26y27127127527e27l27n27y28328528728n28n28p28s29129129329e29n29u2aj2aj",
+          "2al2an2aw2az2az2az2az2az2az2az2az2az2b32b52bh2bh2bq2bs2bu2bu2c12c32c52cc2cl2cz2d12d12d32d32dn2dq2dz",
+          "2ec2eh2ej2el2es2ez2ez2f12f12f12f12fa2fc2fj2fj2fo2fo2fo2fo2fo2fo2fo2fo2fo2fo2fo2fo2fo2fo2fu2fx2fx2fx",
+          "2ga2gh2go2gq2gq2h82hf2hh2hh2hq2hz2hz2i12io2io2iq2is2ix2ix2j32jf2jh2jh2jz2jz2jz2k82kd2kd2kd2kd2kd2kd",
+          "2kd2kd2kd2kd2kd2kd2kd2kd2kf2kh2km2km2kq2kq2kq2kv2kx2kx2kx2l12l42lf2lf2lh2lm2lo2lo2lq2lz2m62mm2mm2mq",
+          "2mv2n42n42n42n42n82nd2nm2nv2o42o82od2om2p22p22p22p22p22p22p22p22p22p22p22p22p22p22p22p62p82pb2pb2pb",
+          "2pb2pb2pb2pb2pb2pd2pk2pk2pm2pt2pt2px2px2q22q22q62q62qb2qb2qd2qf2qf2qk2qm2qq2qt2qt2r22r22r42r42r62rb",
+          "2rm2rt2rt2rv2rv2rv2rx2s22s42s42s42sd2sk2sk2sk2sk2sm2so2so2sv2sv2sx2t22t62tb2tb2tb2td2td2tf2tf2tf2tk",
+          "2tk2tk2tk2tk2tm2to2tr2tr2tr2tr2tr2tr2tr2tr2tr2tr2tr2tr2tr2tr2tr2tr2tr2tr2tr2tr2tr2tr2tr2tr2tr2tr2tr",
+          "2tr2tr2tr2tt2u02u02u22u92ud2ui2ur2ut2uv2uv2ux2v02v02v42v42v92v92vi2vt2vt2w02w02w42w42w92wb2wd2wi2wi",
+          "2wi2wk2wm2wm2wr2wt2wt2wt2wv2x02x02x02x22x22x92xb2xd2xm2xr2xr2xt2xt2y02y02y22y92y92yb2yd2yg2yg2yg2yg",
+          "2yg2yg2yg2yg2yg2yg2yg2yg2yg2yg2yg2yg2yg2yg2yg2yg2yg2yg2yg2yg2yg2yg2yg2yg2yi2yi2yp2yp2yp2yp2yp2yp2yp",
+          "2yr2yt2yy2yy2yy2yy2yy2z02z72z72zd2zg2zg2zi2zi2zi2zm2zy2zy2zy2zy2zy2zy2zy30030930930b30g30i30i30r30r",
+          "31031031031731731731731731931i31i31k31p31r31r31y31y32032732932932932g32i32p32r32r32r32r32y32y332335",
+          "33533533533533533533533533533533533533533533533533533533533533533e33e33e33i33i33n33n33n33n33w33y33y",
+          "34034534734734b34e34n34n34n34n34n34w34w35535735735735935e35e35n35p35r36536736736736736e36e36e36i36p",
+          "36w36y36y37537537537e37g37i37p37p37p37u37u37u37u37u37u37u37u37u37u37u37u37u37u37u37u37u37u37u37u37w",
+          "37w38338338338338338338338338538538538738738c38e38e38e38l38n38n38u38u38u38w38w38w39339539539939c39c",
+          "39e39l39l39l39n39u39w39w39w3a33a33a33a53ac3ac3ae3ag3al3al3al3au3au3au3au3au3aw3aw3ay3b33b33b73b73b7",
+          "3bc3be3bg3bl3by3c33cc3ce3cj3cj3cj3cj3cj3cj3cj3cj3cj3cj3cj3cj3cj3cj3cj3cj3cj3cj3cj3cj3cj3cj3cj3cj3cj",
+          "3cj3cj3cj3cj3cl3cs3cs3cs3cs3cs3cs3cw3cw3cy3d13d13d13d13d13d13d13da3da3da3dc3de3dj3dj3dn3ds3ds3ds3du",
+          "3du3du3du3e33e53ea3ea3ea3ea3ec3ec3ej3ej3ej3es3es3es3eu3eu3eu3f13f13f13f13f33fa3fe3fj3fl3fl3fl3fl3fu",
+          "3fw3fw3g13g13g33ga3ga3ga3ge3gj3gj3gj3gj3gs3gs3h33h33h83h83h83h83h83h83h83h83h83h83h83h83h83h83h83h8",
+          "3h83h83h83h83h83h83h83h83h83h83h83h83h83h83h83h83h83ha3hh3hh3hh3hh3hh3hh3hh3hh3hh3hh3hh3hj3hj3hl3hq",
+          "3hq3hq3hq3hz3i13i13i83i83i83i83i83ic3ih3ih3ih3ij3ij3ij3iq3iq3is3j13j83j83j83ja3jh3jl3js3js3js3jz3jz",
+          "3k13k13k13k33k83k83kc3kc3kh3kj3kj3kl3kq3kq3kq3kq3kq3ks3kz3l13l13l83la3la3lh3lh3lq3lx3lx3lx3lx3lx3lx",
+          "3lx3lx3lx3lx3lx3lx3lx3lx3lx3lx3lx3lx3lx3lx3lx3lx3lx3lx3lx3lx3lx3lx3lx3lx3lx3lx3lx3lx3lx3lx3lx3lx3lz",
+          "3lz3lz3m63m63m63m63m63m63m63m83m83m83mf3mf3mf3mf3mf3mf3mf3mh3mh3mh3mo3mo3mq3mq3ms3mx3mz3n63n63n63n6",
+          "3n83n83nf3nf3nf3nf3nf3nj3nl3no3no3nq3nq3nq3nq3nq3nx3nx3nz3o63o63o63o63o63o83oa3oh3oj3oo3oo3oo3oq3oq",
+          "3oq3oq3os3ox3ox3ox3oz3oz3p13p63pf3pf3pf3ph3ph3po3po3px3px3px3q13q63q63q63q63q83qa3qh3qh3qm3qm3qm3qm",
+          "3qm3qm3qm3qm3qm3qm3qm3qm3qm3qm3qm3qm3qm3qm3qm3qm3qm3qm3qm3qm3qm3qm3qm3qm3qm3qm3qm3qm3qm3qm3qm3qm3qm",
+          "3qm3qm3qm3qm3qm3qm3qm3qm3qm3qo3qq3qq3qv3qv3qv3qv3qv3qv3qv3qv3qv3qv3qx3qx3qz3qz3r43r43r43r63rd3rd3rd",
+          "3rd3rd3rf3rf3rm3rm3rm3rm3ro3ro3ro3rq3rv3rv3rv3rv3s43s63sd3sd3sf3sf3sf3sh3sm3sm3sm3sm3sm3so3sq3sv3sv",
+          "3sx3t43t43t43t43t63td3td3td3tf3th3tm3tm3tm3to3to3tq3u43u63u63ud3um3um3uv3uv3uv3v43v43v43v43v63vb3vb",
+          "3vb3vb3vb3vb3vb3vb3vb3vb3vb3vb3vb3vb3vb3vb3vb3vb3vb3vb3vb3vb3vb3vb3vb3vb3vb3vb3vb3vb3vb3vb3vb3vb3vb",
+          "3vb3vb3vb3vb3vd3vd3vf3vk3vk3vk3vk3vk3vk3vk3vk3vk3vk3vm3vm3vo3vt3vt3vt3vt3vx3w23w43w43w63wb3wb3wb3wd",
+          "3wd3wd3wk3wk3wk3wk3wm3wm3wm3wv3wv3wv3wv3x63x63xf3xk3xk3xk3xk3xk3xm3xo3xt3xt3xv3xx3xx3y23y43yb3yk3ym",
+          "3yt3yt3yv3z23z43zb3zb3zk3zm3zm3zt3zt3zv3zv3zv400400400400400400400400400400400400400400400400400400",
+          "40040040040040040040040040040040040040040040040040040040940940940940940940940940940940940940940940b",
+          "40i40i40i40i40r40r40r40t41941941941941b41d41i41i41i41i41i41i41i41r41r41r41r41t41t41t41t420420422422",
+          "42242942942942b42b42b42b42i42i42i42i42i42k42r42t42t42t42t43243943b43i43m43r43r43r44044044944b44b44b",
+          "44i44i44i44k44k44p44p44p44p44p44p44p44p44p44p44p44p44p44p44p44p44p44p44p44p44p44p44p44p44p44p44p44p",
+          "44p44p44p44p44p44p44p44p44p44p44p44p44p44p44p44p44p44p44p44p44r44t44y44y44y44y44y44y44y44y44y44y44y",
+          "44y44y44y44y44y44y45045045745745745745945945945945945g45g45g45g45i45p45p45p45t45y45y45y45y45y460462",
+          "46746746946g46g46g46g46g46g46p46p46r46r46r46y46y46y47047047947947g47i47i47p47p47p47p47p47r47y487487",
+          "48748948948948g48g48p48p48r48y49749e49e49e49e49e49e49e49e49e49e49e49e49e49e49e49e49e49e49e49e49e49e",
+          "49e49e49e49e49e49e49e49e49e49e49e49e49e49e49e49e49e49e49e49e49e49e49e49e49e49e49g49i49i49n49n49n49n",
+          "49n49n49n49n49n49n49n49n49p49p49w49w49y4a54a54a54a54a54a54a74a74ae4ae4ae4ae4ae4ae4ae4ag4ai4ai4ai4an",
+          "4an4an4aw4ay4b04b54b54b54b54b74b74be4be4be4bg4bn4bn4bp4bp4bp4bw4bw4by4c04c54c74ce4cg4cg4cy4d54d74de",
+          "4de4dw4e34e34e34e34e34e34e34e34e34e34e34e34e34e34e34e34e34e34e34e34e34e34e34e34e34e34e34e34e34e34e3",
+          "4e34e34e34e34e34e34e34e34e34e34e34e34e34e54e54e54e54e54ec4ec4ec4ec4ec4ec4ec4ec4ec4ec4ec4ec4ee4ee4ee",
+          "4ee4eu4ew4ew4ey4ey4f34f34f34f34f34f54f54f54f54f54f74fc4fc4fc4fc4fc4fc4fc4fe4fe4fe4fg4fl4fl4fl4fn4fn",
+          "4fu4fu4fw4fw4fw4fw4fy4g34g54gc4gc4gc4ge4ge4gl4gn4gn4gn4gn4gu4gu4gu4gw4gw4h34h34h34h54hl4hn4hu4hu4hw",
+          "4hw4i34i34ic4in4is4is4is4is4is4is4is4is4is4is4is4is4is4is4is4is4is4is4is4is4is4is4is4is4is4is4is4is",
+          "4is4is4is4is4is4is4is4is4is4is4is4is4iu4iu4iu4iu4j14j14j14j14j14j34ja4ja4ja4jc4je4jj4jj4jl4jl4js4js",
+          "4js4jw4k14k14k14k14ka4ka4ka4kj4kj4kj4kj4kj4ks4ks4ks4ks4ks4ku4ku4ku4l14la4la4lc4lc4lj4lj4ls4lu4lu4m1",
+          "4m34ma4mc4ml4ml4mu4n14na4nh4nh4nh4nh4nh4nh4nh4nh4nh4nh4nh4nh4nh4nh4nh4nh4nh4nh4nh4nh4nh4nh4nh4nh4nh",
+          "4nh4nh4nh4nh4nh4nh4nh4nh4nh4nh4nh4nh4nh4nq4nq4nq4nq4nq4nq4nq4nu4nz4nz4nz4nz4nz4o14o14o14o14o34o84o8",
+          "4o84oa4oh4oh4oh4oh4oh4oj4oj4os4os4oz4oz4oz4p14p14p84p84pa4pa4pa4pa4ph4ph4ps4ps4ps4pz4pz4pz4pz4q14q8",
+          "4q84q84q84qh4qq4qq4qz4qz4qz4qz4qz4r84ra4rh4rh4rj4rq4rs4rz4rz4rz4s14s64s64s64s64s64s64s64s64s64s64s6",
+          "4s64s64s64s64s64s64s64s64s64s64s64s64s64s84sa4sf4sf4sf4sf4sf4sf4sf4sh4sh4sh4sj4so4so4so4so4so4so4so",
+          "4so4so4so4sq4sq4sx4sx4sx4sx4sx4sz4t14t64t64t64t84t84t84t84ta4tf4tf4th4to4to4to4to4to4tz4u64u64u84uf",
+          "4uh4uh4uq4ux4ux4ux4v64v64v64v64v64v84vh4vo4vo4vo4vq4vx4w64w64wo4wv4wv4wv4wv4wv4wv4wv4wv4wv4wv4wv4wv",
+          "4wv4wv4wv4wv4wv4wv4wv4wv4wv4wv4wv4wv4wv4wv4wv4wv4wv4wv4wv4wv4wv4wv4wv4wv4wv4wv4wv4wv4x44x44x44x44x4",
+          "4x44x44x44x44x44x44x64xd4xd4xd4xd4xd4xd4xd4xh4xm4xm4xo4xq4xv4xv4xv4xv4xv4xv4xv4xx4xx4xx4y64ym4ym4ym",
+          "4ym4ym4ym4yo4yq4yv4yv4yv4yv4z44z44z44z64zd4zd4zd4zm4zm4zm4zv4zv4zv50450450450450d50d50f51451f51k51k",
+          "51k51k51k51k51k51k51k51k51k51k51k51k51k51k51k51t51t51t51t51t51t51t51t51t51t51t522522522522522522524",
+          "52452b52b52b52d52f52m52m52t52t52t52v53253253253453453b53b53b53b53d53d53k53k53k53k53t53t53t53v542542",
+          "54254b54b54b54d54d54k54k54t54t54t54v54v55255b562562562562569569569569569569569569569569569569569569",
+          "56956956956956956956956956956b56i56i56i56i56i56i56i56i56m56r56r56r56r56r56r56t56v57057257457957957b",
+          "57i57i57i57i57i57k57k57k57r57r57t57t57t58058058058258258958b58i58i58i58i58r58t59059059959r59r59r59r",
+          "59t5a05a25a95ar5ar5ar5at5ay5ay5ay5ay5ay5ay5ay5ay5ay5ay5ay5ay5ay5ay5ay5ay5ay5ay5ay5ay5ay5ay5ay5ay5ay",
+          "5ay5ay5b25b75b75b75b75b75b75b75b75b75bg5bg5bg5bg5bp5bp5bp5bp5br5by5by5by5by5c05c05c75cg5cg5cg5cg5cp",
+          "5cp5cp5cp5cy5d05d05dg5di5di5dp5dp5dp5dy5dy5dy5e75eg5eg5ep5ey5f75f75fn5fn5fn5fn5fn5fn5fn5fn5fn5fn5fn",
+          "5fn5fn5fn5fn5fn5fn5fn5fn5fn5fn5fn5fn5fn5fn5fn5fn5fn5fn5fn5fn5fn5fn5fw5fw5fw5fw5fw5fw5fw5fw5fw5fw5fw",
+          "5fw5fw5fw5fw5g05g55g55g55g55g55g75ge5gg5gg5gn5gn5gn5gn5gp5gp5gp5gw5gw5gw5h55h55h55h75he5he5he5hg5hg",
+          "5hw5hw5hw5hy5i55ie5ig5ip5iy5j55j55j55j75je5jn5jn5jp5jw5jw5jw5jy5k55kc5kc5kc5kc5kc5kc5kc5kc5kc5kc5kc",
+          "5kc5kc5kc5kc5kc5kc5kc5kc5kc5kc5kc5kc5kc5kc5kc5kc5kc5ke5ke5kg5kl5kl5kl5kl5kl5kl5kl5kl5kl5kl5kl5kn5ku",
+          "5ku5ku5ku5ku5ku5ku5kw5l35l55lc5lc5lc5ll5ll5ll5ln5lu5lu5lu5m55m55mc5me5mu5mu5mu5n35nc5nc5nl5nu5o55oc",
+          "5ol5ol5p15p15p15p15p15p15p15p15p15p15p15p15p15p15p15p15p15p15p15p15p15p15p15p15p15p15p15p35p35p35pa",
+          "5pa5pa5pa5pa5pa5pa5pa5pj5pl5pl5ps5ps5ps5ps5ps5ps5q15q15qc5qc5qc5ql5qs5r15r35rs5s15sa5sa5sj5sj5su5t1",
+          "5tq5tq5tq5tq5tq5tq5tq5tq5tq5tq5tq5tq5tq5tq5tq5tq5tq5tq5tq5tq5tq5tq5tq5tq5tq5tq5ts5tz5tz5tz5tz5tz5tz",
+          "5tz5tz5tz5tz5u15u35u85u85ua5uh5uh5uj5uj5uj5uq5uq5us5uz5uz5uz5v15v85v85va5vh5vh5w85w85wa5wa5wh5wj5wq",
+          "5xq5xz5xz5y85y85yf5yf5yf5yf5yf5yf5yf5yf5yf5yf5yf5yf5yf5yf5yf5yf5yf5yf5yf5yf5yf5yf5yf5yf5yf5yf5yf5yo",
+          "5yo5yo5yo5yo5yo5yo5yo5yq5yq5yx5yx5yx5yx5yx5yx5yz5z65z65zh5zx5zz5zz5zz60660660660860f60h60o60o60o60o",
+          "60q60x60x60x61661861f62f62f62o62o62o62z63463463463463463463463463463463463463463463463463463663d63d",
+          "63d63d63d63d63f63m63m63m63m63m63o63o63o63v63v63x64464d64d64o64v65665m65v66466466d66d66f66m66v67467d",
+          "67m67m67m67t67t67t67t67t67t67t67t67t67t67t67t67t67v67v68268268268268268468468468468d68k68m68t68v68v",
+          "69269269269469k69v69v6a26a26a26ab6ab6ak6at6bb6bb6bb6bk6cb6ci6ci6ci6ci6ci6ci6ci6ci6ci6ci6ci6ci6ci6ci",
+          "6ci6ci6ci6ci6ci6ci6ci6ci6cr6cr6cr6cr6d06d06d96d96d96di6dr6dt6e26e26e96eb6er6er6f06f06f26fi6g06g96gr",
+          "6gt6h76h76h76h76h76h76h76h76h76h76h76h76hg6hg6hg6hg6hi6hi6hp6hp6hp6hp6hp6hy6hy6hy6i76i76ig6ig6ii6ip",
+          "6j96kg6kg6kp6ky6l76l76lp6lw6lw6lw6lw6lw6lw6lw6m56m76me6mg6mn6mn6mw6n56n56ne6ne6ng6nw6oe6oe6ow6p56pe",
+          "6pn6pn6ql6ql6ql6ql6ql6ql6ql6ql6ql6ql6ql6ql6ql6ql6ql6ql6ql6qn6qu6qu6r36r36r36r36r56re6rl6rl6ru6ru6s3",
+          "6s36s56sl6su6sw6t36tc6tc6tn6tu6u36u36v36va6va6va6va6va6va6va6va6va6va6va6va6vc6vj6vj6vj6vj6vj6vj6vj",
+          "6vl6vl6vs6w16wa6x16xj6xs6xs6xs6yj6ys6ys6z16za6za6zz6zz6zz6zz6zz6zz6zz6zz6zz6zz6zz6zz6zz708708708708",
+          "70870870h70q70q71h71h71h72872872h72q72z73873h73z73z73z74o74o74o74o74x74x74x75675f75o75q76676676o76x",
+          "77678678f78x79679d79d79d79d79d79d79d79d79d79f79m79m79m79v79v79v7a47ad7ad7ad7af7am7bd7bm7bm7bm7bm7c4",
+          "7c47cm7cm7cm7e27e27e27e27e27e27e27e47eb7eb7eb7eb7ek7em7et7f27fd7ft7ft7g27gb7hb7hk7ht7i27ik7ir7ir7ir",
+          "7ir7ir7ir7ir7j07j07j97jr7jr7kr7l97l97m07m97mi7n97ng7ng7ng7ng7ng7np7np7np7np7ny7ny7ny7o77og7p77p77pp",
+          "7py7py7q77q77qp7r77rg7s57s57s57s57s57s77se7se7sw7te7uw7v57vw7vw7vw7wu7wu7wu7wu7x37x37x37x37x37xc7xc",
+          "7xc7xl7y37y37yc7yu7z37zu7zu80381381j81j81j81j81j81j81j81s81s83183s85j86886886886886886h87887h87h88h",
+          "88h88h88q88q88z8a88ax8b68b68b88bf8bx8co8co8cx8e68fm8fm8fm8g48g48gd8gm8gv8h48h48hd8hm8hm8hv8kb8kt8kt",
+          "8l28m28n28p08p08p98pi8q08r08s08w78ye8ye8ye8yn8ze93397s97s9819ch9cq9ez9h69h69h69hx9v99wr",
+        ].join("");
+        const CUT = 1345.125; // menor puntaje con vacante (56 vacantes)
+        const AUS = 783; // ausentes (excluidos)
+        const S = [];
+        for (let i = 0; i < D.length; i += 3) S.push(parseInt(D.substr(i, 3), 36) / 8);
+        const N = S.length;
+        const mean = S.reduce((a, b) => a + b) / N;
+        const sd = Math.sqrt(S.reduce((a, b) => a + (b - mean) ** 2, 0) / N);
+        const $ = (id) => document.getElementById("b-" + id); // ids de esta sección llevan prefijo "b-"
+        const f = (x, d = 1) => x.toLocaleString("es-PE", { minimumFractionDigits: d, maximumFractionDigits: d });
+        const sv = document.documentElement;
+        const cs = (n) => getComputedStyle(sv).getPropertyValue(n);
+
+        // ===== Dibujo (misma lógica del histograma 2027-I) =====
+        function st() {
+          return {
+            bw: +$("bw").value,
+            mn: +$("mn").value,
+            mx: +$("mx").value,
+            ax: $("ax").value,
+            log: $("sc").value == "log",
+          };
+        }
+        function draw() {
+          const s = st();
+          if (s.mx <= s.mn + s.bw) {
+            s.mx = s.mn + s.bw * 2;
+          }
+          $("vb").textContent = s.bw;
+          $("vmn").textContent = s.mn;
+          $("vmx").textContent = s.mx;
+          // Clases: lo = inicio, nb = n.º de clases, B = frecuencias, V = vacantes por clase
+          const lo = Math.floor(s.mn / s.bw) * s.bw,
+            nb = Math.ceil((s.mx - lo) / s.bw),
+            B = Array(nb).fill(0),
+            V = Array(nb).fill(0);
+          for (const x of S) {
+            const i = Math.floor((x - lo) / s.bw);
+            if (i >= 0 && i < nb) {
+              B[i]++;
+              if (x >= CUT) V[i]++;
+            }
+          }
+          const inR = S.filter((x) => x >= lo && x < lo + nb * s.bw).length;
+          // Geometría del gráfico y escalas X e Y (lineal o logarítmica)
+          const W = 820,
+            H = 440,
+            m = { l: 52, r: 14, t: 16, b: 44 },
+            pw = W - m.l - m.r,
+            ph = H - m.t - m.b,
+            X = (v) => m.l + ((v - lo) / (nb * s.bw)) * pw;
+          const mxc = Math.max(...B, 1),
+            Y = (v) =>
+              s.log
+                ? m.t + ph * (1 - Math.log10(Math.max(v, 0.5) / 0.5) / Math.log10((mxc * 1.15) / 0.5))
+                : m.t + ph * (1 - v / (mxc * 1.12));
+          // Curva normal y densidad kernel gaussiana (Silverman)
+          const pdf = (x) => Math.exp(-0.5 * ((x - mean) / sd) ** 2) / (sd * Math.sqrt(2 * Math.PI)),
+            h = 1.06 * sd * Math.pow(N, -0.2);
+          const kd = (x) => {
+            let t = 0;
+            for (let i = 0; i < N; i++) {
+              const u = (x - S[i]) / h;
+              if (u > -4 && u < 4) t += Math.exp(-0.5 * u * u);
+            }
+            return t / (N * h * Math.sqrt(2 * Math.PI));
+          };
+          // Colores
+          const bar = cs("--bar"),
+            hi = cs("--hi"),
+            mu = cs("--mu"),
+            tx = cs("--tx");
+          let o = "";
+          // Eje Y: cuadrícula y marcas
+          const ticks = s.log
+            ? [1, 10, 100, 1000].filter((v) => v <= mxc * 1.15)
+            : Array.from({ length: 6 }, (_, i) => Math.round((mxc * 1.12 * i) / 5 / 10) * 10);
+          for (const t of ticks)
+            o += `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(t)}" y2="${Y(t)}" stroke="${mu}" opacity=".2"/><text x="${m.l - 6}" y="${Y(t) + 4}" text-anchor="end" font-size="11" fill="${mu}">${t}</text>`;
+          // Eje X: marcas en puntaje bruto o en σ
+          const xs =
+            s.ax == "z"
+              ? (() => {
+                  const a = [];
+                  for (let z = Math.ceil((lo - mean) / sd); z <= (lo + nb * s.bw - mean) / sd; z++)
+                    a.push([mean + z * sd, z + "σ"]);
+                  return a;
+                })()
+              : (() => {
+                  const a = [],
+                    st_ = Math.max(s.bw, Math.ceil((nb * s.bw) / 9 / 50) * 50);
+                  for (let v = Math.ceil(lo / st_) * st_; v <= lo + nb * s.bw; v += st_) a.push([v, v]);
+                  return a;
+                })();
+          for (const [v, l] of xs)
+            o += `<line x1="${X(v)}" x2="${X(v)}" y1="${m.t + ph}" y2="${m.t + ph + 4}" stroke="${mu}"/><text x="${X(v)}" y="${m.t + ph + 17}" text-anchor="middle" font-size="11" fill="${mu}">${l}</text>`;
+          o += `<text x="${m.l + pw / 2}" y="${H - 6}" text-anchor="middle" font-size="12" fill="${mu}">${s.ax == "z" ? "Puntaje estandarizado (σ)" : "Puntaje"}</text><text transform="rotate(-90)" x="${-(m.t + ph / 2)}" y="14" text-anchor="middle" font-size="12" fill="${mu}">Frecuencia${s.log ? " (log)" : ""}</text>`;
+          // Barras del histograma (rojo = vacantes) y etiquetas
+          const bwp = Math.max(pw / nb - 1, 1);
+          B.forEach((c, i) => {
+            const x0 = X(lo + i * s.bw),
+              y = Y(c),
+              base = m.t + ph;
+            if (c > 0) {
+              const nv = $("va").checked ? V[i] : 0,
+                hv = (nv / c) * (base - y);
+              o += `<g data-i="${i}"><rect x="${x0}" y="${y}" width="${bwp}" height="${base - y}" fill="${bar}"/>${nv ? `<rect x="${x0}" y="${base - hv}" width="${bwp}" height="${hv}" fill="${hi}"/>` : ""}</g>`;
+              if ($("lb").checked && bwp > 13)
+                o += `<text x="${x0 + bwp / 2}" y="${y - 3}" text-anchor="middle" font-size="${bwp > 24 ? 10 : 8.5}" fill="${tx}">${c}</text>`;
+            } else
+              o += `<g data-i="${i}"><rect x="${x0}" y="${m.t}" width="${bwp}" height="${ph}" fill="transparent"/></g>`;
+          });
+          // Líneas de media y ±σ
+          if ($("sg").checked) {
+            for (const k of [-3, -2, -1, 0, 1, 2, 3, 4]) {
+              const v = mean + k * sd;
+              if (v > lo && v < lo + nb * s.bw)
+                o += `<line x1="${X(v)}" x2="${X(v)}" y1="${m.t}" y2="${m.t + ph}" stroke="${mu}" stroke-dasharray="${k ? "2 4" : "5 3"}" opacity="${k ? 0.45 : 0.8}"/>${k == 0 ? `<text x="${X(v) + 4}" y="${m.t + 11}" font-size="10" fill="${mu}">media</text>` : ""}`;
+            }
+          }
+          // Curvas superpuestas
+          const path = (fn) => {
+            let d = "";
+            for (let v = lo; v <= lo + nb * s.bw; v += Math.max(s.bw / 4, 4)) {
+              const y = Y(fn(v) * N * s.bw);
+              if (!(y >= m.t && y <= m.t + ph)) continue;
+              d += (d ? "L" : "M") + X(v).toFixed(1) + " " + y.toFixed(1);
+            }
+            return d;
+          };
+          if ($("nm").checked)
+            o += `<path d="${path(pdf)}" fill="none" stroke="${cs("--nm")}" stroke-width="2"/>`;
+          if ($("kd").checked) o += `<path d="${path(kd)}" fill="none" stroke="${cs("--kd")}" stroke-width="2"/>`;
+          // Pinta el SVG, el título y la nota
+          $("ch").innerHTML = o;
+          $("ct").textContent =
+            `Examen 2022-II: Histograma de puntajes (clases de ${s.bw} pts, ${f(lo, 0)}–${f(lo + nb * s.bw, 0)})`;
+          $("nt").innerHTML =
+            `${inR.toLocaleString("es-PE")} de ${N.toLocaleString("es-PE")} postulantes en el rango visible.` +
+            ($("nm").checked ? ' <span style="color:var(--nm)">━</span> Normal' : "") +
+            ($("kd").checked ? ' <span style="color:var(--kd)">━</span> Kernel' : "") +
+            ($("va").checked ? ' <span style="color:var(--hi)">■</span> Vacantes' : "");
+          // Tooltip al pasar el cursor o tocar una barra
+          document.querySelectorAll("#b-ch g").forEach((g) => {
+            const i = +g.dataset.i;
+            const sh = (e) => {
+              const t = document.getElementById("tip");
+              t.style.display = "block";
+              t.style.left = Math.min(e.clientX + 12, innerWidth - 190) + "px";
+              t.style.top = e.clientY + 12 + "px";
+              const a = lo + i * s.bw;
+              t.innerHTML = `${f(a, 0)}–${f(a + s.bw, 0)} pts<br>${B[i]} estud. · ${f((a - mean) / sd, 2)}σ a ${f((a + s.bw - mean) / sd, 2)}σ${V[i] ? `<br>${V[i]} con vacante` : ""}`;
+            };
+            g.onmousemove = sh;
+            g.onmouseleave = () => (document.getElementById("tip").style.display = "none");
+            g.onclick = (e) => sh(e);
+          });
+        }
+
+        // ===== Eventos =====
+        document
+          .getElementById("b-sec")
+          .querySelectorAll("input,select")
+          .forEach((e) => e.addEventListener("input", draw));
+        $("rs").onclick = () => {
+          $("bw").value = 50;
+          $("mn").value = 100;
+          $("mx").value = 1650;
+          $("ax").value = "p";
+          $("sc").value = "lin";
+          draw();
+        };
+        $("tail").onclick = () => {
+          $("mn").value = Math.floor((mean + 3 * sd) / 10) * 10;
+          $("mx").value = 1650;
+          $("bw").value = 25;
+          $("sc").value = "lin";
+          draw();
+        };
+        matchMedia("(prefers-color-scheme:dark)").addEventListener("change", draw);
+        draw();
+      })();
     </script>
   </body>
 </html>

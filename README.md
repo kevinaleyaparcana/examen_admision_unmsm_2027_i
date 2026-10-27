@@ -1,4 +1,4 @@
-# examen_admision_unmsm_2027_i_prueba.
+# examen_admision_unmsm_2027_i.
 Análisis estadístico descriptivo de los datos públicos del Examen de admisión UNMSM 2027-I - Medicina Humana
 
 Paso 1: Correr Do file de análisis de 2027-I

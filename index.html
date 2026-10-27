@@ -1,113 +1,765 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Dashboard UNMSM 2027-I · Medicina Humana</title>
-<style>
-:root{--bg:#f6f5f1;--card:#fff;--tx:#1f2328;--mu:#6b7280;--bd:#e3e0d8;--bar:#c9b96a;--hi:#b3261e;--nm:#2457c5;--kd:#d6402b;--acc:#7a5c00;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15171a;--card:#1f2226;--tx:#eceae4;--mu:#9aa0a8;--bd:#33373d;--bar:#b8a44f;--hi:#ff6b5e;--nm:#6f9bff;--kd:#ff8a6b;--acc:#e0c15a}}
-:root[data-theme="dark"]{--bg:#15171a;--card:#1f2226;--tx:#eceae4;--mu:#9aa0a8;--bd:#33373d;--bar:#b8a44f;--hi:#ff6b5e;--nm:#6f9bff;--kd:#ff8a6b;--acc:#e0c15a}
-*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
-.w{max-width:1180px;margin:0 auto;padding:16px}h1{font:700 22px/1.2 Georgia,serif;margin:0 0 2px}.sub{color:var(--mu);margin:0 0 14px}
-.k{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:12px}
-.c{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:12px}.k .c b{display:block;font-size:20px}.k .c span{color:var(--mu);font-size:12px}
-.g{display:grid;grid-template-columns:260px 1fr;gap:12px}@media(max-width:820px){.g{grid-template-columns:1fr}}
-label{display:block;font-size:12px;color:var(--mu);margin:10px 0 3px}label b{color:var(--tx);float:right}input[type=range]{width:100%}
-.ck{display:flex;gap:6px;align-items:center;color:var(--tx);font-size:13px;margin:7px 0}select,button{width:100%;padding:6px;border-radius:6px;border:1px solid var(--bd);background:var(--card);color:var(--tx)}button{cursor:pointer;margin-top:10px}
-#ch{width:100%;height:auto;display:block;touch-action:none}#tip{position:fixed;pointer-events:none;background:var(--tx);color:var(--bg);padding:5px 8px;border-radius:6px;font-size:12px;display:none;z-index:9}
-table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:4px 6px;text-align:right;border-bottom:1px solid var(--bd)}th:first-child,td:first-child{text-align:left}
-.n{font-size:12px;color:var(--mu);margin-top:10px}.wrap{overflow-x:auto}h2{font-size:14px;margin:0 0 8px}.t{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}@media(max-width:820px){.t{grid-template-columns:1fr}}
-</style></head><body><div class="w">
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Dashboard UNMSM 2027-I · Medicina Humana</title>
+    <style>
+      /* ===== Variables de color (tema claro) ===== */
+      :root {
+        --bg: #f6f5f1;
+        --card: #fff;
+        --tx: #1f2328;
+        --mu: #6b7280;
+        --bd: #e3e0d8;
+        --bar: #c9b96a;
+        --hi: #b3261e;
+        --nm: #2457c5;
+        --kd: #d6402b;
+        --acc: #7a5c00;
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      /* Tema oscuro automático (según el sistema) */
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #15171a;
+          --card: #1f2226;
+          --tx: #eceae4;
+          --mu: #9aa0a8;
+          --bd: #33373d;
+          --bar: #b8a44f;
+          --hi: #ff6b5e;
+          --nm: #6f9bff;
+          --kd: #ff8a6b;
+          --acc: #e0c15a;
+        }
+      }
+      /* Tema oscuro forzado */
+      :root[data-theme="dark"] {
+        --bg: #15171a;
+        --card: #1f2226;
+        --tx: #eceae4;
+        --mu: #9aa0a8;
+        --bd: #33373d;
+        --bar: #b8a44f;
+        --hi: #ff6b5e;
+        --nm: #6f9bff;
+        --kd: #ff8a6b;
+        --acc: #e0c15a;
+      }
 
-  <!-- HEADER -->
-  <header>
-    <div class="header-tag">Examen de admisión UNMSM 2027-I · Medicina Humana</div>
-    <h1>Distribución de puntajes y valores atípicos.<br><span>en comparación estandarizada con exámenes anteriores</span></h1>
-    <div class="header-sub">
-      Fuente: Resultados del examen de admisión 2027-I (web), con fecha de corte al 2026-10-25 - Oficina Central de Admisión UNMSM <br>
-      Elaborado por: Kevin Aley Aparcana · 🔗 <a href="https://www.linkedin.com/in/kevin-aley-aparcana/">Linkedin</a> · 🔗 <a href="https://orcid.org/0000-0002-2426-5041">ORCID</a>
-    </div>
-  </header>
-  
-<div class="k" id="k"></div>
+      /* ===== Base ===== */
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--tx);
+        font:
+          14px/1.45 system-ui,
+          -apple-system,
+          "Segoe UI",
+          sans-serif;
+      }
+      .w {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 16px;
+      }
+      a {
+        color: var(--nm);
+      }
 
-<!-- INSIGHT BANNER -->
-  <div class="insight">
+      /* ===== Encabezado ===== */
+      header {
+        border-bottom: 1px solid var(--bd);
+        padding-bottom: 14px;
+        margin-bottom: 16px;
+      } /* línea de separación tras ORCID */
+      .header-tag {
+        font:
+          600 20px/1.3 Georgia,
+          serif;
+        color: var(--acc);
+        margin-bottom: 4px;
+      } /* encabezado: 20 px */
+      h1 {
+        font:
+          700 24px/1.25 Georgia,
+          serif;
+        margin: 0 0 8px;
+      } /* título: 24 px */
+      .header-sub {
+        color: var(--mu);
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      /* ===== Tarjetas de indicadores (KPIs) ===== */
+      .k {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+      .c {
+        background: var(--card);
+        border: 1px solid var(--bd);
+        border-radius: 10px;
+        padding: 12px;
+      }
+      .k .c b {
+        display: block;
+        font-size: 20px;
+      }
+      .k .c span {
+        color: var(--mu);
+        font-size: 12px;
+      }
+
+      /* ===== Banners de hallazgos: 3 en una misma fila ===== */
+      .insight {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+      .insight-item {
+        background: var(--card);
+        border: 1px solid var(--bd);
+        border-left: 4px solid var(--acc);
+        border-radius: 10px;
+        padding: 12px;
+      }
+      .insight-tag {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+      .insight-text {
+        display: block;
+        font-size: 13px;
+      }
+      @media (max-width: 820px) {
+        .insight {
+          grid-template-columns: 1fr;
+        }
+      } /* en móvil se apilan */
+
+      /* ===== Controles + gráfico ===== */
+      .g {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        gap: 12px;
+      }
+      @media (max-width: 820px) {
+        .g {
+          grid-template-columns: 1fr;
+        }
+      }
+      h2 {
+        font-size: 14px;
+        margin: 0 0 8px;
+      }
+      label {
+        display: block;
+        font-size: 12px;
+        color: var(--mu);
+        margin: 10px 0 3px;
+      }
+      label b {
+        color: var(--tx);
+        float: right;
+      }
+      input[type="range"] {
+        width: 100%;
+      }
+      .ck {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        color: var(--tx);
+        font-size: 13px;
+        margin: 7px 0;
+      }
+      select,
+      button {
+        width: 100%;
+        padding: 6px;
+        border-radius: 6px;
+        border: 1px solid var(--bd);
+        background: var(--card);
+        color: var(--tx);
+      }
+      button {
+        cursor: pointer;
+        margin-top: 10px;
+      }
+      #ch {
+        width: 100%;
+        height: auto;
+        display: block;
+        touch-action: none;
+      }
+      #tip {
+        position: fixed;
+        pointer-events: none;
+        background: var(--tx);
+        color: var(--bg);
+        padding: 5px 8px;
+        border-radius: 6px;
+        font-size: 12px;
+        display: none;
+        z-index: 9;
+      }
+
+      /* ===== Tablas ===== */
+      .t {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-top: 12px;
+      }
+      @media (max-width: 820px) {
+        .t {
+          grid-template-columns: 1fr;
+        }
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+      th,
+      td {
+        padding: 4px 6px;
+        text-align: right;
+        border-bottom: 1px solid var(--bd);
+      }
+      th:first-child,
+      td:first-child {
+        text-align: left;
+      }
+      .wrap {
+        overflow-x: auto;
+      }
+
+      /* ===== Notas y pie de página ===== */
+      .n {
+        font-size: 12px;
+        color: var(--mu);
+        margin-top: 10px;
+      }
+      footer {
+        font-size: 12px;
+        color: var(--mu);
+        border-top: 1px solid var(--bd);
+        margin-top: 16px;
+        padding-top: 12px;
+        line-height: 1.6;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="w">
+      <!-- ENCABEZADO -->
+      <header>
+        <div class="header-tag">Examen de admisión UNMSM 2027-I · Medicina Humana</div>
+        <h1>
+          Distribución de puntajes y valores atípicos en comparación estandarizada con exámenes anteriores
+        </h1>
+        <div class="header-sub">
+          Fuente: Resultados del examen de admisión 2027-I (web), con fecha de corte al 2026-10-25 - Oficina
+          Central de Admisión UNMSM<br />
+          Elaborado por: Kevin Aley Aparcana · 🔗
+          <a href="https://www.linkedin.com/in/kevin-aley-aparcana/">Linkedin</a> · 🔗
+          <a href="https://orcid.org/0000-0002-2426-5041">ORCID</a>
+        </div>
+      </header>
+
+      <!-- INDICADORES (los 7 cuadros los genera el script) -->
+      <div class="k" id="k"></div>
+
+      <!-- BANNERS DE HALLAZGOS (3 en una fila) -->
+      <div class="insight">
         <div class="insight-item">
-      <span class="insight-tag">📊 Puntajes más altos atípicos </span>
-      <span class="insight-text">· A medida que el puntaje aumenta, la cantidad de estudiantes se va reduciendo. Al llegar a los 1630 puntos la cantidad llega a cero (0). Sin embargo, luego de un salto grande y atípico de 110.75 puntos, recién aparecen los 3 primeros puestos.</span>
-    </div>
-    <div class="insight-item">
-      <span class="insight-tag">✅ Distribución 2022-II (puntajes estandarizados)</span>
-      <span class="insight-text">· Estandarizar los puntajes permite comparar con otros exámenes. En el examen 2022-II el primer puesto estuvo a 3.5 desviaciones estándar (𝜎) de distancia del puntaje promedio y la distribución no era discontinua.</span>
-    </div>
-    <div class="insight-item">
-      <span class="insight-tag">⚠️ Distribución 2027-I (puntajes estandarizados)</span>
-      <span class="insight-text">· En el 2027-I, la distribución es muy similar y también llega a cero a las 3.5 𝜎. Sin embargo, luego de una discontinuidad recién aparecen los 3 primeros puestos, ubicados a 4 𝜎. Esto es bastante atípico.</span>
-    </div>
-  </div>
-  
-<div class="g"><div class="c">
-<h2>Controles</h2>
-<label>Ancho de clase (pts)<b id="vb"></b></label><input id="bw" type="range" min="5" max="150" step="5" value="50">
-<label>Puntaje mínimo<b id="vmn"></b></label><input id="mn" type="range" min="250" max="1750" step="10" value="250">
-<label>Puntaje máximo<b id="vmx"></b></label><input id="mx" type="range" min="300" max="1800" step="10" value="1800">
-<label>Eje X</label><select id="ax"><option value="p">Puntaje bruto</option><option value="z">Puntaje estandarizado (σ)</option></select>
-<label>Eje Y</label><select id="sc"><option value="lin">Lineal</option><option value="log">Logarítmico</option></select>
-<div class="ck"><input type="checkbox" id="nm" checked><span>Curva normal ajustada</span></div>
-<div class="ck"><input type="checkbox" id="kd" checked><span>Densidad suavizada (kernel)</span></div>
-<div class="ck"><input type="checkbox" id="lb" checked><span>Etiquetas de frecuencia</span></div>
-<div class="ck"><input type="checkbox" id="va" checked><span>Resaltar vacantes (≥ puntaje de corte)</span></div>
-<div class="ck"><input type="checkbox" id="sg" checked><span>Líneas de media y ±σ</span></div>
-<button id="rs">Restablecer</button>
-<button id="tail">Zoom a la cola superior (&gt; 3σ)</button>
-</div><div class="c"><h2 id="ct"></h2><svg id="ch" viewBox="0 0 820 440"></svg><div class="n" id="nt"></div></div></div>
-<div class="t"><div class="c"><h2>Frecuencia por rango (según ancho de clase)</h2><div class="wrap" style="max-height:300px;overflow-y:auto"><table id="tb"></table></div></div>
-<div class="c"><h2>Cola superior: brechas entre puntajes consecutivos</h2><div class="wrap"><table id="gp"></table></div><div class="n" id="gn"></div></div></div>
-<p class="n">Notas: n = postulantes con puntaje (se excluyen 38 ausentes). σ = desviación estándar poblacional; z = (puntaje − media)/σ. La densidad kernel (gaussiano, ancho de banda de Silverman) y la curva normal se escalan a frecuencia. «Vacantes» = 55 postulantes con observación «ALCANZÓ VACANTE». No se incluyen nombres.</p>
-</div><div id="tip">
+          <span class="insight-tag">📊 Puntajes más altos atípicos</span>
+          <span class="insight-text"
+            >· A medida que el puntaje aumenta, la cantidad de estudiantes se va reduciendo. Al llegar a los
+            1630 puntos la cantidad llega a cero (0). Sin embargo, luego de un salto grande y atípico de
+            110.75 puntos, recién aparecen los 3 primeros puestos.</span
+          >
+        </div>
+        <div class="insight-item">
+          <span class="insight-tag">✅ Distribución 2022-II (puntajes estandarizados)</span>
+          <span class="insight-text"
+            >· Estandarizar los puntajes permite comparar con otros exámenes. En el examen 2022-II el primer
+            puesto estuvo a 3.5 desviaciones estándar (𝜎) de distancia del puntaje promedio y la distribución
+            no era discontinua.</span
+          >
+        </div>
+        <div class="insight-item">
+          <span class="insight-tag">⚠️ Distribución 2027-I (puntajes estandarizados)</span>
+          <span class="insight-text"
+            >· En el 2027-I, la distribución es muy similar y también llega a cero a las 3.5 𝜎. Sin embargo,
+            luego de una discontinuidad recién aparecen los 3 primeros puestos, ubicados a 4 𝜎. Esto es
+            bastante atípico.</span
+          >
+        </div>
+      </div>
 
-<footer>Elaboración propia · Repositorio: 🔗 <a href="https://github.com/kevinaleyaparcana/examen_admision_unmsm_2027_i">GitHub</a>
-     </br></br>
-    Fuente: Oficina Central de Admisión (OCA) - UNMSM. Resultados del examen de admisión 2027-I - Especialidad de Medicina Humana (portal web). Fecha de corte: 2026-10-25 · Enlace: <a href="https://admision.unmsm.edu.pe/Website20261025/A/A.html">https://admision.unmsm.edu.pe/Website20261025/A/A.html</a></footer>
+      <!-- CONTROLES + HISTOGRAMA -->
+      <div class="g">
+        <div class="c">
+          <h2>Controles</h2>
+          <label>Ancho de clase (pts)<b id="vb"></b></label>
+          <input id="bw" type="range" min="5" max="150" step="5" value="50" />
+          <label>Puntaje mínimo<b id="vmn"></b></label>
+          <input id="mn" type="range" min="250" max="1750" step="10" value="250" />
+          <label>Puntaje máximo<b id="vmx"></b></label>
+          <input id="mx" type="range" min="300" max="1800" step="10" value="1800" />
+          <label>Eje X</label>
+          <select id="ax">
+            <option value="p">Puntaje bruto</option>
+            <option value="z">Puntaje estandarizado (σ)</option>
+          </select>
+          <label>Eje Y</label>
+          <select id="sc">
+            <option value="lin">Lineal</option>
+            <option value="log">Logarítmico</option>
+          </select>
+          <div class="ck"><input type="checkbox" id="nm" checked /><span>Curva normal ajustada</span></div>
+          <div class="ck">
+            <input type="checkbox" id="kd" checked /><span>Densidad suavizada (kernel)</span>
+          </div>
+          <div class="ck"><input type="checkbox" id="lb" checked /><span>Etiquetas de frecuencia</span></div>
+          <div class="ck">
+            <input type="checkbox" id="va" checked /><span>Resaltar vacantes (≥ puntaje de corte)</span>
+          </div>
+          <div class="ck"><input type="checkbox" id="sg" checked /><span>Líneas de media y ±σ</span></div>
+          <button id="rs">Restablecer</button>
+          <button id="tail">Zoom a la cola superior (&gt; 3σ)</button>
+        </div>
+        <div class="c">
+          <h2 id="ct"></h2>
+          <svg id="ch" viewBox="0 0 820 440"></svg>
+          <div class="n" id="nt"></div>
+        </div>
+      </div>
 
-</div>
-<script>
-const D="1rz1sf1u61uv1vb1y11zh20x22322824v25x26228828v2ac2ao2bn2by2cd2d92dg2e42e62eg2eh2f02fv2ga2gd2gm2gn2gt2gz2hp2jg2jv2kg2kh2km2km2ku2l42l72la2lf2ln2lr2mc2mn2mo2n32n72na2nb2nf2nv2o32o42o52of2og2op2oy2p02py2qf2qr2qs2qy2r22s52sa2sn2sp2sv2sv2t12t62t72t82t82tl2tp2tq2ty2u02u32u62ud2ud2ud2um2uq2uv2uv2uw2v72v82v82vc2vc2vg2vj2vm2vs2vw2vy2w32w32w62w92wa2wl2wp2wr2wr2ww2ww2ww2x62xm2xn2xn2xt2xt2xt2xv2xz2y02y62yb2yc2yf2yg2yp2yv2yx2yx2z22z92za2zf2zl2zp2zu2zv2zw2zx30030630930e30f30n30n30n30u31131431431631b31c31d31m31o31q31u31u31y32332432532632732932g32i32i32m32n32q32s32v32w32y33033333733b33e33e33e33h33i33k33l33l33m33o33p33w33w33z34434534534734734a34d34j34j34p34s34t34w35235435435635a35f35f35g35g35n35s35u35u35w35z36236536636a36b36b36b36i36k36k36s36s36v36w37237637737937937a37b37d37d37d37e37i37j37k37k37m37n37o37s37x38238238838a38c38g38h38k38l38o38q38s38v38z38z38z38z39339a39c39d39h39h39h39l39q39q39u39v39x39x39z3a13a13a23a23a33a43a73ac3ad3ah3ai3al3al3al3am3am3an3ar3az3b03b03b23b23b33bc3bh3bh3bi3br3bs3bw3bw3bw3bw3c33c53c53c93cc3ce3ch3ci3ci3ci3ci3ck3cl3cl3co3co3cq3cr3cr3cs3cs3cu3cu3cw3d43d83d93db3db3dd3dj3dm3dn3dn3do3do3do3do3dp3dr3ds3du3dv3dx3dx3dz3e33e33e43e63e63ea3ea3ea3ea3ec3ec3ee3ef3ef3eg3eh3ei3ej3ek3ek3el3em3eq3eq3et3et3ev3ev3ex3ex3ex3ez3f23f23f43f53f63f63fa3fb3ff3fg3fh3fj3fk3fk3fl3fm3fn3fo3fs3fw3fy3g13g23g53g63g93g93ga3gd3gg3gh3gh3gi3gl3gl3gl3gp3gp3gs3gt3gu3gx3h63h63h83ha3hh3hh3hh3hj3hk3hl3hp3hq3hr3hv3hv3i83i83i83ib3ic3id3id3id3id3id3id3id3im3im3im3im3in3io3it3iv3iy3iz3j43j43j63j63j83j93jd3jf3jh3jh3ji3jj3jl3jl3jm3jm3jo3jp3jt3jv3jw3jy3jz3jz3k03k23k23k43k43k53k73k83k83k93k93k93kb3kc3kd3ke3ke3ke3kj3kn3kn3kq3kr3kt3ky3kz3l13l13l13l23l33l53l63l73l83l93la3la3la3la3la3lb3ld3li3lj3lj3lj3ll3ll3lm3lm3lm3lq3lq3lv3lz3m03m33m43m63m63m63m63mc3mc3mf3mh3mi3mj3ml3ml3mo3mq3mq3mq3mr3ms3mx3mx3mz3n23n23n23n23n23n43n43n43n53n63na3nb3nb3nb3nc3nc3ne3nj3nj3nk3nn3nn3no3no3np3ns3nt3nt3nx3ny3ny3ny3ny3ny3ny3o03o03o13o23o23o73o73o73ob3od3og3og3og3oj3ok3ol3oo3oo3ox3ox3p33p63p63p73p73pc3pc3pi3pj3pj3pr3ps3ps3pu3pv3py3py3py3py3pz3pz3pz3pz3pz3pz3pz3pz3pz3q33q73q73q73q73q83q83q83q93q93q93qb3qb3qc3qc3qf3qf3qg3qg3qg3qi3qk3qm3qq3qq3qq3qu3qv3qv3qv3qv3qv3qw3qy3qz3qz3r43r43r43r43r73r83r83ra3rd3rd3rd3rg3rh3rh3rm3rm3ro3rq3rr3rr3rr3ru3ry3rz3rz3rz3rz3s03s03s03s03s03s03s03s33s53s83s93s93s93sc3sf3sg3si3sl3sn3sn3sn3sn3sp3sq3sr3sr3sv3sw3sw3sw3sw3sw3sz3t03t13t33t53t53t63t83t93t93td3te3te3te3tg3tj3tj3tj3tj3tj3tj3tk3tl3tm3to3tr3ts3ts3ts3ts3ts3ts3tt3tt3tv3tv3tw3u13u13u33u43u43u53u73ub3uc3ud3uf3uf3uh3uj3uj3uj3uk3uk3uo3uo3uo3uq3uq3uq3us3us3us3uv3uw3ux3v13v33v53v73v93v93ve3ve3vf3vf3vk3vk3vk3vn3vo3vq3vs3vt3vt3vw3vw3vw3vy3w23w43w53w53w53w63w83wd3we3wf3wf3wg3wg3wg3wg3wg3wg3wg3wj3wk3wp3wp3wp3wt3wt3ww3wz3x23x43x53x63xa3xa3xa3xc3xc3xc3xc3xc3xc3xc3xf3xj3xj3xk3xk3xk3xl3xl3xl3xl3xo3xp3xs3xu3xw3xx3y33y73y83y83y83y83y83y83yb3yb3yc3ye3yf3yf3yh3yh3yh3yh3yi3yj3yk3yl3yl3ym3yo3yp3yp3yp3yr3yr3yr3yt3yx3yx3yy3yz3yz3z03z03z13z13z23z43z93za3zc3zd3zd3zd3zd3zd3zd3zd3zg3zh3zi3zm3zm3zm3zp3zp3zq3zt3zt3zv40040340440440440940940940940940940940940940f40g40g40g40i40i40i40i40k40m40m40n40o40p40r40r40u40u40v40v40v40z40z41041141241441541541541541541541541541741941b41c41d41e41e41e41e41e41e41e41h41i41l41l41m41n41r41u41w41z42042142142142142142142142142142342442542842842a42a42a42a42d42e42e42e42g42i42i42i42j42j42k42n42n42s42s42u42x42x43043143643643743c43f43f43f43n43o43q43q43s43s43t43t43t43u43x43y44044244244244444544a44b44b44b44c44f44i44k44n44n44o44o44p44t44v44x44y44y44y44y44y44y44y44y44z45245245445545545645745745745745745745945b45b45d45d45e45e45e45g45h45i45n45n45o45p45p45p45t45u45u45u45u45u45u45u45u45u45u45u45v45x45x45y45z46046346346346346346346346346346346546546746746746746746946a46b46e46e46g46j46l46l46p46p46q46q46q46q46q46s46t46t46u46u46u46x46y46z46z46z46z46z46z47147447747747847847847847947c47j47l47m47m47n47o47q47q47q47u47u47v47v47v47v47v47w47y47y48348448448448448448548548648748748848848b48b48c48c48d48d48d48g48h48h48i48i48i48i48j48k48l48m48m48m48m48n48n48p48q48q48r48r48r48r48r48t48u48w48x48z49049249249349349449449649749749849949949b49c49d49d49e49e49g49h49h49i49j49m49n49n49n49n49n49n49n49n49n49n49n49q49q49q49r49r49r49r49s49t49u49u49u49v49v49w49w49w49w49y4a24a34a44a44a64a94a94aa4ad4ae4ae4af4ag4ah4ah4ai4ai4ai4aj4aj4aj4aj4aj4aj4aj4al4an4ap4aq4as4as4as4as4as4as4as4as4as4at4av4aw4aw4aw4b04b14b14b14b54b84b84ba4bf4bf4bf4bf4bf4bf4bf4bf4bf4bf4bf4bf4bf4bf4bf4bh4bj4bl4bl4bm4bm4bo4bo4bo4bo4bo4bo4bo4bp4br4bs4bs4bu4bv4bw4bw4bx4bx4by4by4c04c04c14c44c84ca4ca4ca4cb4cb4cb4cb4cd4cf4cg4ch4ch4cj4ck4ck4cn4cn4cn4cp4cq4cs4cs4ct4cu4cw4cw4cx4d24d24d44d64d74d74d84db4db4df4dg4dg4dg4dg4dg4dg4dg4dj4dk4dk4dk4do4do4dp4dp4dp4dr4du4dx4dx4e14e24e34e74e74e74e74e94ea4eb4ec4ec4ec4ec4ec4ec4ec4eg4eg4ej4el4el4el4el4el4el4ep4ep4es4es4ev4ex4ey4f24f34f44f74f74f84f84f84f84f84f84f84f84f84f84fa4fb4fb4fc4ff4ff4fg4fg4fg4fh4fj4fk4fl4fl4fo4fq4ft4fu4fu4fx4fz4fz4fz4g34g34g44g44g44g44g44g44g44g44g44g44g44g44g44g64g84g84g84gd4gd4gh4gh4gh4gj4gk4gm4gm4gm4gm4gm4gm4gm4gp4gq4gt4gu4gv4gv4gv4gv4gx4gy4gz4gz4h04h04h04h04h04h04h04h04h04h04h04h24h34h44h44h44h44h44h74h84h94h94h94h94h94h94h94h94hh4hi4hi4hi4hi4hi4hi4hl4hm4hp4hr4hr4hr4hv4hv4hv4hw4hw4hw4hw4hw4hz4i04i24i54i54i54i54i54i54i54i54i54i54i54i54i54i54i54i64i84i84i94id4id4id4ie4ie4ie4ie4ie4ie4if4ii4ij4ij4im4in4iq4is4iw4iw4iz4iz4j04j14j14j14j14j14j14j14j24j24j44j54j54j64j94ja4ja4ja4ja4jd4jd4je4jh4jj4jj4jj4jj4jl4jm4jm4jm4jn4jp4jq4jq4js4jx4jx4jx4jx4jx4jx4jx4jx4jx4jx4jz4k04k04k14k34k44k64k64k64k64k64k64ka4kd4ke4ke4kf4kf4kf4kf4kf4kf4kh4kh4ki4kn4kn4ko4kq4kr4kr4ks4kt4kt4kt4kt4kt4kt4kt4kt4kv4kv4kw4kx4kx4kx4kx4kx4l24l24l24l24l54l64l94l94lb4lb4lb4lb4lc4ld4ld4le4lf4li4lj4lk4lk4lo4lo4lp4lp4lp4lp4lp4lq4ls4lt4lt4lw4ly4ly4ly4ly4ly4m24m24m24m24m54m64m74m74mb4mb4mb4me4mf4mg4mi4mk4ml4ml4ml4ml4mo4mo4mo4mp4mp4mp4mp4mp4mq4mq4mq4mr4mt4mu4mu4mu4mu4mu4mu4mu4mu4mu4mu4mv4mx4mx4mx4mz4mz4n04n34n64n64n74nc4nc4nd4nf4nf4ng4nh4nl4no4np4np4nq4nq4nq4nq4nq4nt4nt4nu4nx4ny4o24o24o54oc4oe4of4og4oh4oh4ok4ol4om4om4om4om4om4om4om4om4om4om4om4om4om4oo4oo4oq4ot4ov4ov4ov4ov4oz4oz4p14p14p24p24p24p24p44p54p74pa4pb4pb4pi4pi4pi4pi4pi4pi4pi4pi4pi4pi4pi4pi4pm4pm4pm4pq4pr4pr4pr4pr4pu4pu4px4pz4q24q34q34q44q44q44q44q44q94q94q94q94qe4qe4qe4qe4qe4qe4qf4qh4qi4qj4ql4qm4qn4qn4qn4qn4qn4qn4qn4qp4qq4qw4qy4qz4qz4qz4r04r04r04r34r44r44r44r44r44r44r64r94ra4ra4ra4ra4ra4ra4ra4re4re4rg4ri4ri4rj4rj4rj4rj4rj4rj4rj4rn4rp4rr4rs4rs4rs4rt4rw4rw4rz4s04s04s14s14s64s64sa4sc4sc4sd4se4sf4sf4sf4sf4sf4sf4sf4sf4sf4sf4sh4sh4si4sj4sk4sl4sm4sm4sn4sn4so4so4so4so4ss4ss4sw4sw4sw4sw4sx4sx4sx4sz4sz4t14t14t54t54ta4tb4tb4tb4tb4tb4tb4tb4tb4tb4tb4tb4tb4tb4tb4tb4tb4tb4td4te4tf4th4ti4tj4tj4tk4tk4tk4tk4tk4tk4tk4tk4to4tr4ts4tt4tx4tx4tx4tx4tz4u04u24u24u64u74u74u74u74u74u74u74u74u74u74u94ua4ua4ub4ub4ub4ud4ue4uf4ug4ug4ug4uj4uj4uk4uk4uk4uk4un4up4up4ut4ut4ux4ux4uy4uy4v04v14v24v34v34v34v34v34v34v34v34v44v64v64v74v74v74va4vc4vc4vc4vc4vc4vc4vc4vc4vc4vc4vf4vg4vk4vl4vl4vl4vp4vs4vt4vu4vz4vz4vz4w04w04w04w24w74w74w84w84w84w84w84w84w84w84w84w84w84wb4wb4wc4wc4wg4wh4wh4wh4wh4wi4wj4wj4wo4wq4wr4wt4wu4wu4wu4wu4wv4wz4wz4x44x44x44x44x44x44x44x44x44x44x44x44x44x44x74x74x84xa4xb4xc4xd4xd4xd4xf4xf4xm4xm4xo4xp4xp4xp4xp4xq4xs4xv4xv4xw4xx4xx4xy4xz4xz4y04y04y04y04y04y04y04y04y04y04y04y04y14y24y44y44y44y54y84y94y94y94y94y94yc4yd4yf4yi4yl4yq4yr4yr4yr4yr4yu4yv4yw4yw4yw4yw4yw4yw4yw4yz4yz4z04z54z54z54z54z54z54z54z64z64z84z84z84z94zh4zi4zi4zn4zo4zo4zr4zr4zr4zr4zs4zs4zs4zs4zs4zs4zs4zs4zs4zs4zs4zs4zs4zw4zw4zw50050050050050150150150150350350850a50a50a50a50c50c50c50e50e50g50j50j50j50m50n50n50n50n50n50o50o50o50q50s50t50x50x50x50x50x50x50x50z51051151151451551551651651651651651651651651751951a51c51d51e51f51f51f51f51j51k51o51r51s51t51t51t51t51t51t51t51t51t51t51t51x51x52052052152252252252252652852a52a52b52b52c52d52e52g52k52k52n52n52o52o52p52p52p52p52p52p52p52p52p52p52p52r52t52w52y52y52y52y53553753953953f53g53g53g53i53l53l53l53l53l53l53l53n53o53p53p53u53u53u53u53u53u53u53w53y54354354354354354354354654754754a54c54c54c54e54f54f54f54g54h54h54h54h54h54h54h54h54h54p54q54q54q54q54s54t54u54y54z54z54z54z54z54z55155255355355555755d55d55d55d55d55k55k55l55m55m55m55q55q55q55s55t55u55v55v55z56256256256456456556856856956a56d56d56i56i56i56i56i56i56i56k56l56q56q56r56r56r56r56t56t56z57257257357557857857957d57e57e57e57e57e57e57e57e57e57e57g57i57i57i57k57m57n57n57n57p57q57r57w57w57w58058158358558558958958a58a58a58a58a58a58a58a58a58a58c58d58e58g58i58j58j58j58s58s58s58s58u58w58w58z59159659659659659659659659659659659659659759859a59e59e59e59e59f59f59f59j59j59m59m59n59o59o59s59t59u59v59w59w59w59x59x59z5a15a25a25a65a65a65a95aa5ab5ab5ab5ab5ab5ab5af5ai5aj5ak5as5as5at5ax5ax5ay5ay5ay5b25b65b75b75b75b75b75b75b75b75b75ba5ba5ba5bb5bb5bb5bd5bd5be5bg5bg5bg5bg5bg5bg5bj5bo5bp5bp5bp5bs5bw5bx5bz5c15c25c25c35c35c35c35c35c45c65ca5cb5cb5cc5cc5cc5cc5cc5cc5ce5cg5cg5cj5cl5co5cp5cu5cu5cu5cu5cz5cz5cz5cz5cz5cz5cz5cz5d05d05d35d35d65d65d75d85d85d85d85d85da5de5df5dg5dh5dh5dh5dk5dl5dn5do5dp5dq5dq5dq5dq5dt5dv5dv5dv5dv5dv5dv5dv5dv5dv5dv5dy5dz5dz5e15e45e45e45e65e75e85e85ec5ei5ej5em5er5er5er5er5er5et5ev5ey5ez5f05f05f05f05f05f05f05f05f05f05f45f55f85f85f95f95f95f95f95fd5fh5fm5fn5fn5fo5fp5fq5fr5fs5fu5fv5fw5fw5fw5fw5fw5fx5g05g15g45g55g55g75g85g95ga5ge5ge5gh5gi5gk5gl5gm5gs5gs5gs5gs5gs5gs5gs5gs5gs5gs5gs5gs5gs5gs5gs5gs5gs5gs5gu5gv5gw5gy5gz5gz5h05h05h15h15h15h15h15h25h35h35h35h85hc5he5hj5hn5ho5ho5ho5ho5ho5ho5ho5ho5ho5ho5ho5ho5ho5hq5hx5i15i15i15i65i95ia5if5ij5ij5ik5ik5ik5ik5ik5il5im5im5io5io5io5iq5is5it5it5it5it5iv5j05j15j25j55j65j65j95jb5jb5jc5je5jf5jg5jg5jg5jg5jh5jj5jk5jk5jp5jp5jp5jt5jt5jx5jx5jy5jy5jy5jy5k25k75k75k75k95k95kd5kf5kj5kk5kl5kl5kl5kl5ku5ku5ku5ky5l35l35l35l35l45l75lb5lc5lc5lf5lf5lh5lh5lh5lh5lh5lh5lh5lh5lh5lk5ll5ln5lq5ly5lz5lz5m85md5md5md5md5md5md5md5md5md5md5md5md5md5md5md5me5mk5mm5mm5mm5mm5mo5mo5mq5mq5mq5mt5mu5mv5mv5mx5n25n35n45n45n45n85n95n95n95n95n95n95n95n95n95n95n95n95na5nh5ni5ni5ni5nl5nl5nl5nq5nz5o05o05o05o55o55o55o55o55o55o85ob5od5od5od5oe5oe5oe5oe5oe5oe5oe5oe5oe5oe5oe5og5oi5on5on5oo5os5ou5ow5p15p15p35p35p45p45pa5pa5pa5pa5pa5pa5pa5pa5pa5pa5pa5pd5pe5pe5pj5pj5pj5pj5pl5pm5pm5ps5pt5pv5pv5q15q65q65q65q65q65q65q65q65q65q65q65q65q65q65qa5qa5qc5qe5qf5qf5qf5qf5qf5qf5qf5qf5ql5qo5qo5qs5qu5qv5qz5r05r05r25r25r25r25r25r25r25r25r65r85r95ra5ra5rb5rb5rb5rb5rb5rb5re5rf5rh5rk5rk5rm5rn5rn5rw5rw5ry5ry5ry5ry5ry5ry5ry5ry5s25s65s75sb5sf5sg5sk5so5sp5sr5st5st5st5su5su5su5su5su5sw5sx5sy5sy5t05t25t35t35t35t35t35t35t35t55t65tb5tc5tg5tg5tl5tp5tq5tq5tq5tr5tt5tu5tz5tz5tz5tz5tz5tz5tz5tz5tz5tz5tz5tz5tz5tz5u85u85u85u85ub5ug5uh5uh5uh5up5us5ut5uu5uv5uv5uv5uv5uv5uz5uz5uz5v35v45v45v45v45v45v45v55v75vc5vd5vd5vf5vl5vm5vp5vq5vr5vr5vr5vr5vr5vr5vr5vr5vu5vw5w05w05w05w75w95wb5wg5wg5wh5wh5wi5wk5wn5wn5wn5wn5wn5wn5ww5ww5ww5ww5ww5x35x55x95xe5xe5xi5xi5xj5xj5xj5xn5xq5xs5xs5xs5xs5xw5xz5y05y15y15y35y45y55ya5ya5yd5yd5yf5yf5yi5yj5yl5yn5yn5yo5yo5yo5yo5yo5yo5yr5z15za5zk5zk5zk5zk5zk5zk5zk5zk5zn5zn5zt5zt5zt5zt5zt5zt5zw60060560960b60d60e60g60g60g60g60g60g60p60p60p60p60r60x60y60y61661761761761c61c61c61c61c61e61g61g61l61l61l61u61x61y62162262262362362562662762c62h62h62h62h62h62h62h62h62j62k62l62l62q62r62t63363463463a63d63d63d63d63g63l63m63m63m63t63u63v63w63y63z63z64264864964964964964c64d64h64i64i64m64o64o64q64r64r64t64z65265465465565565565565565565865965965d65e65i65i65n65v65w65w65w65x66166166166166166366a66d66e66j66j66m66p66w66x66x66y67167467567667667667667667967967h67m67n67r67x67x68068268268268268268268568a68b68b68b68n68n68r68t68t68v68w68y68y68y68y68y68y69269669e69g69j69m69u69u69u69u69u69x6a26a36a36a36a56ab6ac6ac6ac6ac6ae6ag6aj6ak6al6al6al6al6al6an6ap6aq6aq6aq6aq6aq6au6au6au6aw6ay6ay6az6az6az6az6az6az6az6az6b66b86b86b86bc6bk6bk6bk6bl6bm6bm6bm6bp6bq6bu6bu6bv6bv6bw6by6bz6bz6bz6c36c46c46c46c86cd6cd6ch6ci6ci6cq6cr6cr6cr6cr6cr6cr6cu6cu6cv6cv6cw6cy6cy6d06d06d06d96dg6dh6di6dn6dn6dn6dn6dn6dn6dn6dn6dn6do6dr6du6dw6dw6dw6dw6e46e56e96ed6ee6ei6ej6ej6ej6ej6ej6em6er6f06f16f16f16f16fa6fa6ff6ff6ff6ff6ff6ff6ff6ff6ff6ff6fj6fo6fo6fo6fo6fo6fx6fx6fx6fx6fx6g46g56g66g66g86ga6gb6gb6gf6gj6gj6gk6gk6go6gs6gt6gu6h16h16h56h56h76hf6hg6hg6hg6hg6ht6ht6hv6hw6hy6ib6ib6ic6ic6ic6ic6ic6ic6ic6ic6ic6if6ij6il6il6il6il6ip6iu6ix6iy6j36j36j86j86j86jc6jh6jh6jl6jl6jq6jz6k46k46k46k46k46k46k46kd6kd6kd6kd6kd6kh6kl6kl6km6km6km6km6kq6ku6ky6l06l06l06l56l96l96l96lb6lc6lc6ld6ld6ld6lh6li6li6lp6lu6lv6lw6ly6m26m36m36m46m46m56m56m56m56m56me6me6me6mh6mi6ml6ml6mm6mw6n16n16n16n16n16n16n16na6ne6nj6nn6nn6nx6nx6nx6nx6nx6nx6nx6nx6nx6o16o66o66o66o86oa6oa6od6of6oj6oo6oo6oo6ot6ot6ot6ot6p16p26pa6pe6pk6po6pp6pp6pp6pp6pt6py6py6py6q16q26q26q56q66q76q76q76qp6qt6qt6qu6qu6qu6qu6qx6qx6qy6qy6r36r76rg6rl6ro6rq6rq6rq6rq6rq6rq6rs6ru6rz6sh6sm6sm6sm6sm6sm6sm6sm6sq6sv6sv6sz6t46t86th6ti6ti6ti6ti6tr6tr6tr6tr6tr6tr6tr6tv6u06u06u06u76u76u96ue6ui6un6un6up6ur6uu6uv6uz6uz6v56v96ve6vj6vn6vy6vz6w16w16w56wa6wf6wf6wf6wf6wo6wr6wr6wx6wz6x56x66x86x86xb6xb6xb6xb6xb6xb6xb6xb6xb6xb6xb6xf6xk6xk6xk6xo6xt6xx6y26y46y76y76y76y76y76y76yb6yg6yg6yg6yk6yp6yt6yy6z16z36z36z36z36z36z36z66za6zb6zb6zc6zc6zc6zc6zc6zk6zl6zl6zt6zu70370870870870870870870g70h70h70h70l70l70l70t70z71471471471871d71d71h71m71p71q71u72072072072072072472972972972d72h72r72w72w72w72w72w72w73073573973e73r73s73s73s73s74174174174174574974e74j74s74s74x74x74x74x74x74x75175575675675675675675675f75f75j75j75t75x75x76276276276276976n76p76p76p76p76p76p76x76y76y76y77177477677777l77l77l77p77p77u77u77u77u78378378778c78c78h78h78p78s78u78z78z79379b79b79d79m79m79m79u79x79z7a47ac7ag7ai7ai7ai7ai7ai7aq7ar7bd7be7be7be7be7be7be7bi7bi7bi7bn7bn7bw7bw7bz7ca7ca7ca7ca7ca7ce7ch7cj7cj7cj7cw7cw7d17d67d67d67dd7de7df7df7dn7do7dv7e17e27e57eb7eb7eb7eb7eb7ef7ek7ek7ek7et7et7f47f77f77f77f77f77f77fg7g07g37g37g37g37g37gc7gc7gc7gc7gl7gl7gt7gu7gu7gz7gz7gz7gz7gz7gz7gz7gz7gz7gz7h37h67h87h87hc7hp7hq7hq7hv7hv7hy7i47i47i47i47ib7id7ig7il7im7j07j07j07j07j07j47j97jw7jw7jw7jy7k47k47k97ke7ki7ki7ki7ks7ks7ks7ks7l17l57la7la7le7le7li7li7lo7lo7lo7lx7m17m67m67mf7mj7mk7mk7mk7mo7n27n27n27n27n67n97ne7nk7no7np7np7np7ny7o77o77ol7ol7ol7ou7ou7p27p37pa7ph7ph7ph7ph7ph7pj7pq7pq7ps7pu7pz7qd7qd7qd7qd7qv7r97r97r97r97rb7rb7rh7rh7rl7rm7rr7s37sn7sv7sw7ta7ta7ta7ta7ta7ta7tj7ts7u17u67u67u67uf7ui7ui7ux7v27vb7vb7vj7vk7vk7vt7vy7w77w77w77w77w77wk7wk7wu7wx7wy7x37x37x77xk7xl7xl7xp7xz7xz7xz7y27y37y37y87y87yh7yh7yh7yq7z27zd7zk7zm7zq7zr7zr7zr7zv80080880980980c80i80i80n80n80w81581981e81e81h81m81q82082182182182a82o82o82o82o83683k83o84684g84g84g84g84p84p85685b85c85c85f85k85l85l85l85l86h86h86h86h86h86l87887b87d87d87d87g87h87m88988988i88i88r88v88v89589589589589589e89n89r8a18aa8aw8b68b68bs8bs8c28c28c28cb8cs8cy8cy8db8dg8dp8du8du8e38eq8ez8ez8ez8f88fv8fv8fv8fv8gd8gr8gr8h98hn8hn8hn8hn8hn8hn8hr8hw8hw8i98ij8ij8ij8ij8iw8jf8jf8ji8jo8jx8ka8kk8kk8lb8lg8lg8ly8m68mg8ml8n88n88n88n88nc8nh8nh8nh8np8o48o48od8p48p98q58qe8qw8r18r18r18r18rs8rx8rx8s68s68si8st8st8t18t28uu8v38v38vq8vq8vu8wc8wm8xi8xq8yn8zj8zj90f90o91k91o92p92p96096w98199t9fe9gj9kz9p19sl9vra13appapyayu",S=[];for(let i=0;i<D.length;i+=3)S.push(parseInt(D.substr(i,3),36)/8);
-const AUS=38,CUT=1404.5,N=S.length,mean=S.reduce((a,b)=>a+b)/N,sd=Math.sqrt(S.reduce((a,b)=>a+(b-mean)**2,0)/N);
-const med=S[N>>1],mxv=S[N-1],$=id=>document.getElementById(id),f=(x,d=1)=>x.toLocaleString('es-PE',{minimumFractionDigits:d,maximumFractionDigits:d});
-$('k').innerHTML=[[N.toLocaleString('es-PE'),'Postulantes con puntaje'],[f(mean,2),'Media'],[f(sd,2),'Desv. estándar (σ)'],[f(med,2),'Mediana'],[f(mxv,2),'Puntaje máximo'],[f((mxv-mean)/sd,2)+' σ','Máximo estandarizado'],[S.filter(x=>x>=CUT).length,'Vacantes (corte '+f(CUT,1)+')']].map(a=>`<div class="c"><b>${a[0]}</b><span>${a[1]}</span></div>`).join('');
-const sv=document.documentElement,cs=n=>getComputedStyle(sv).getPropertyValue(n);
-function st(){return{bw:+$('bw').value,mn:+$('mn').value,mx:+$('mx').value,ax:$('ax').value,log:$('sc').value=='log'}}
-function draw(){const s=st();if(s.mx<=s.mn+s.bw){s.mx=s.mn+s.bw*2}
-$('vb').textContent=s.bw;$('vmn').textContent=s.mn;$('vmx').textContent=s.mx;
-const lo=Math.floor(s.mn/s.bw)*s.bw,nb=Math.ceil((s.mx-lo)/s.bw),B=Array(nb).fill(0),V=Array(nb).fill(0);
-for(const x of S){const i=Math.floor((x-lo)/s.bw);if(i>=0&&i<nb){B[i]++;if(x>=CUT)V[i]++}}
-const inR=S.filter(x=>x>=lo&&x<lo+nb*s.bw).length;
-const W=820,H=440,m={l:52,r:14,t:16,b:44},pw=W-m.l-m.r,ph=H-m.t-m.b,X=v=>m.l+(v-lo)/(nb*s.bw)*pw;
-const mxc=Math.max(...B,1),Y=v=>s.log?m.t+ph*(1-Math.log10(Math.max(v,.5)/.5)/Math.log10(mxc*1.15/.5)):m.t+ph*(1-v/(mxc*1.12));
-const pdf=x=>Math.exp(-.5*((x-mean)/sd)**2)/(sd*Math.sqrt(2*Math.PI)),h=1.06*sd*Math.pow(N,-.2);
-const kd=x=>{let t=0;for(let i=0;i<N;i++){const u=(x-S[i])/h;if(u>-4&&u<4)t+=Math.exp(-.5*u*u)}return t/(N*h*Math.sqrt(2*Math.PI))};
-const bar=cs('--bar'),hi=cs('--hi'),mu=cs('--mu'),tx=cs('--tx');let o='';
-const ticks=s.log?[1,10,100,1000].filter(v=>v<=mxc*1.15):Array.from({length:6},(_,i)=>Math.round(mxc*1.12*i/5/10)*10);
-for(const t of ticks)o+=`<line x1="${m.l}" x2="${W-m.r}" y1="${Y(t)}" y2="${Y(t)}" stroke="${mu}" opacity=".2"/><text x="${m.l-6}" y="${Y(t)+4}" text-anchor="end" font-size="11" fill="${mu}">${t}</text>`;
-const xs=s.ax=='z'?(()=>{const a=[];for(let z=Math.ceil((lo-mean)/sd);z<=(lo+nb*s.bw-mean)/sd;z++)a.push([mean+z*sd,z+'σ']);return a})():(()=>{const a=[],st_=Math.max(s.bw,Math.ceil((nb*s.bw/9)/50)*50);for(let v=Math.ceil(lo/st_)*st_;v<=lo+nb*s.bw;v+=st_)a.push([v,v]);return a})();
-for(const [v,l] of xs)o+=`<line x1="${X(v)}" x2="${X(v)}" y1="${m.t+ph}" y2="${m.t+ph+4}" stroke="${mu}"/><text x="${X(v)}" y="${m.t+ph+17}" text-anchor="middle" font-size="11" fill="${mu}">${l}</text>`;
-o+=`<text x="${m.l+pw/2}" y="${H-6}" text-anchor="middle" font-size="12" fill="${mu}">${s.ax=='z'?'Puntaje estandarizado (σ)':'Puntaje'}</text><text transform="rotate(-90)" x="${-(m.t+ph/2)}" y="14" text-anchor="middle" font-size="12" fill="${mu}">Frecuencia${s.log?' (log)':''}</text>`;
-const bwp=Math.max(pw/nb-1,1);
-B.forEach((c,i)=>{const x0=X(lo+i*s.bw),y=Y(c),base=m.t+ph;if(c>0){const nv=$('va').checked?V[i]:0,hv=nv/c*(base-y);o+=`<g data-i="${i}"><rect x="${x0}" y="${y}" width="${bwp}" height="${base-y}" fill="${bar}"/>${nv?`<rect x="${x0}" y="${base-hv}" width="${bwp}" height="${hv}" fill="${hi}"/>`:''}</g>`;
-if($('lb').checked&&bwp>13)o+=`<text x="${x0+bwp/2}" y="${y-3}" text-anchor="middle" font-size="${bwp>24?10:8.5}" fill="${tx}">${c}</text>`}
-else o+=`<g data-i="${i}"><rect x="${x0}" y="${m.t}" width="${bwp}" height="${ph}" fill="transparent"/></g>`});
-if($('sg').checked){for(const k of[-3,-2,-1,0,1,2,3,4]){const v=mean+k*sd;if(v>lo&&v<lo+nb*s.bw)o+=`<line x1="${X(v)}" x2="${X(v)}" y1="${m.t}" y2="${m.t+ph}" stroke="${mu}" stroke-dasharray="${k?'2 4':'5 3'}" opacity="${k?.45:.8}"/>${k==0?`<text x="${X(v)+4}" y="${m.t+11}" font-size="10" fill="${mu}">media</text>`:''}`}}
-const path=fn=>{let d='';for(let v=lo;v<=lo+nb*s.bw;v+=Math.max(s.bw/4,4)){const y=Y(fn(v)*N*s.bw);if(!(y>=m.t&&y<=m.t+ph))continue;d+=(d?'L':'M')+X(v).toFixed(1)+' '+y.toFixed(1)}return d};
-if($('nm').checked)o+=`<path d="${path(pdf)}" fill="none" stroke="${cs('--nm')}" stroke-width="2"/>`;
-if($('kd').checked)o+=`<path d="${path(kd)}" fill="none" stroke="${cs('--kd')}" stroke-width="2"/>`;
-$('ch').innerHTML=o;$('ct').textContent=`Histograma de puntajes (clases de ${s.bw} pts, ${f(lo,0)}–${f(lo+nb*s.bw,0)})`;
-$('nt').innerHTML=`${inR.toLocaleString('es-PE')} de ${N.toLocaleString('es-PE')} postulantes en el rango visible.`+($('nm').checked?' <span style="color:var(--nm)">━</span> Normal':'')+($('kd').checked?' <span style="color:var(--kd)">━</span> Kernel':'')+($('va').checked?' <span style="color:var(--hi)">■</span> Vacantes':'');
-$('tb').innerHTML='<tr><th>Rango</th><th>Estud.</th><th>%</th><th>σ (inicio)</th></tr>'+B.map((c,i)=>[c,i]).filter(a=>a[0]>0||(lo+a[1]*s.bw>=1300)).reverse().map(([c,i])=>`<tr><td>${f(lo+i*s.bw,0)} a ${f(lo+(i+1)*s.bw-.01,2)}</td><td>${c}</td><td>${f(c/N*100,2)}</td><td>${f((lo+i*s.bw-mean)/sd,2)}</td></tr>`).join('');
-document.querySelectorAll('#ch g').forEach(g=>{const i=+g.dataset.i;const sh=e=>{const t=$('tip');t.style.display='block';t.style.left=Math.min(e.clientX+12,innerWidth-190)+'px';t.style.top=e.clientY+12+'px';const a=lo+i*s.bw;t.innerHTML=`${f(a,0)}–${f(a+s.bw,0)} pts<br>${B[i]} estud. · ${f((a-mean)/sd,2)}σ a ${f((a+s.bw-mean)/sd,2)}σ${V[i]?`<br>${V[i]} con vacante`:''}`};g.onmousemove=sh;g.onmouseleave=()=>$('tip').style.display='none';g.onclick=e=>sh(e)})}
-const tp=[...S].slice(-12).reverse(),gaps=tp.slice(0,-1).map((v,i)=>[v,tp[i+1],v-tp[i+1]]);
-const mg=gaps.reduce((a,b)=>b[2]>a[2]?b:a);
-$('gp').innerHTML='<tr><th>Puntaje</th><th>σ</th><th>Brecha al siguiente</th></tr>'+tp.map((v,i)=>`<tr${gaps[i]&&gaps[i]==mg?' style="color:var(--hi);font-weight:600"':''}><td>${f(v,3)}</td><td>${f((v-mean)/sd,2)}</td><td>${gaps[i]?f(gaps[i][2],3):'—'}</td></tr>`).join('');
-$('gn').textContent=`Mayor brecha entre los 12 puntajes más altos: ${f(mg[2],3)} pts (de ${f(mg[1],3)} a ${f(mg[0],3)}). Observación descriptiva; este tablero no establece causas.`;
-document.querySelectorAll('input,select').forEach(e=>e.addEventListener('input',draw));
-$('rs').onclick=()=>{$('bw').value=50;$('mn').value=250;$('mx').value=1800;$('ax').value='p';$('sc').value='lin';draw()};
-$('tail').onclick=()=>{$('mn').value=Math.floor((mean+3*sd)/10)*10;$('mx').value=1800;$('bw').value=25;$('sc').value='lin';draw()};
-matchMedia('(prefers-color-scheme:dark)').addEventListener('change',draw);draw();
-</script></body></html>
+      <!-- TABLAS -->
+      <div class="t">
+        <div class="c">
+          <h2>Frecuencia por rango (según ancho de clase)</h2>
+          <div class="wrap" style="max-height: 300px; overflow-y: auto"><table id="tb"></table></div>
+        </div>
+        <div class="c">
+          <h2>Cola superior: brechas entre puntajes consecutivos</h2>
+          <div class="wrap"><table id="gp"></table></div>
+          <div class="n" id="gn"></div>
+        </div>
+      </div>
+
+      <!-- NOTAS METODOLÓGICAS -->
+      <p class="n">
+        Notas: n = postulantes con puntaje (se excluyen 38 ausentes). σ = desviación estándar poblacional; z =
+        (puntaje − media)/σ. La densidad kernel (gaussiano, ancho de banda de Silverman) y la curva normal se
+        escalan a frecuencia. «Vacantes» = 55 postulantes con observación «ALCANZÓ VACANTE». No se incluyen
+        nombres.
+      </p>
+
+      <!-- PIE DE PÁGINA -->
+      <footer>
+        Elaboración propia · Repositorio: 🔗
+        <a href="https://github.com/kevinaleyaparcana/examen_admision_unmsm_2027_i">GitHub</a> <br /><br />
+        Fuente: Oficina Central de Admisión (OCA) - UNMSM. Resultados del examen de admisión 2027-I -
+        Especialidad de Medicina Humana (portal web). Fecha de corte: 2026-10-25 · Enlace:
+        <a href="https://admision.unmsm.edu.pe/Website20261025/A/A.html"
+          >https://admision.unmsm.edu.pe/Website20261025/A/A.html</a
+        >
+      </footer>
+    </div>
+
+    <!-- Tooltip del histograma (debe quedar vacío y fuera del contenedor) -->
+    <div id="tip"></div>
+
+    <script>
+      const D = [
+          "1rz1sf1u61uv1vb1y11zh20x22322824v25x26228828v2ac2ao2bn2by2cd2d92dg2e42e62eg2eh2f02fv2ga2gd2gm2gn2gt",
+          "2gz2hp2jg2jv2kg2kh2km2km2ku2l42l72la2lf2ln2lr2mc2mn2mo2n32n72na2nb2nf2nv2o32o42o52of2og2op2oy2p02py",
+          "2qf2qr2qs2qy2r22s52sa2sn2sp2sv2sv2t12t62t72t82t82tl2tp2tq2ty2u02u32u62ud2ud2ud2um2uq2uv2uv2uw2v72v8",
+          "2v82vc2vc2vg2vj2vm2vs2vw2vy2w32w32w62w92wa2wl2wp2wr2wr2ww2ww2ww2x62xm2xn2xn2xt2xt2xt2xv2xz2y02y62yb",
+          "2yc2yf2yg2yp2yv2yx2yx2z22z92za2zf2zl2zp2zu2zv2zw2zx30030630930e30f30n30n30n30u31131431431631b31c31d",
+          "31m31o31q31u31u31y32332432532632732932g32i32i32m32n32q32s32v32w32y33033333733b33e33e33e33h33i33k33l",
+          "33l33m33o33p33w33w33z34434534534734734a34d34j34j34p34s34t34w35235435435635a35f35f35g35g35n35s35u35u",
+          "35w35z36236536636a36b36b36b36i36k36k36s36s36v36w37237637737937937a37b37d37d37d37e37i37j37k37k37m37n",
+          "37o37s37x38238238838a38c38g38h38k38l38o38q38s38v38z38z38z38z39339a39c39d39h39h39h39l39q39q39u39v39x",
+          "39x39z3a13a13a23a23a33a43a73ac3ad3ah3ai3al3al3al3am3am3an3ar3az3b03b03b23b23b33bc3bh3bh3bi3br3bs3bw",
+          "3bw3bw3bw3c33c53c53c93cc3ce3ch3ci3ci3ci3ci3ck3cl3cl3co3co3cq3cr3cr3cs3cs3cu3cu3cw3d43d83d93db3db3dd",
+          "3dj3dm3dn3dn3do3do3do3do3dp3dr3ds3du3dv3dx3dx3dz3e33e33e43e63e63ea3ea3ea3ea3ec3ec3ee3ef3ef3eg3eh3ei",
+          "3ej3ek3ek3el3em3eq3eq3et3et3ev3ev3ex3ex3ex3ez3f23f23f43f53f63f63fa3fb3ff3fg3fh3fj3fk3fk3fl3fm3fn3fo",
+          "3fs3fw3fy3g13g23g53g63g93g93ga3gd3gg3gh3gh3gi3gl3gl3gl3gp3gp3gs3gt3gu3gx3h63h63h83ha3hh3hh3hh3hj3hk",
+          "3hl3hp3hq3hr3hv3hv3i83i83i83ib3ic3id3id3id3id3id3id3id3im3im3im3im3in3io3it3iv3iy3iz3j43j43j63j63j8",
+          "3j93jd3jf3jh3jh3ji3jj3jl3jl3jm3jm3jo3jp3jt3jv3jw3jy3jz3jz3k03k23k23k43k43k53k73k83k83k93k93k93kb3kc",
+          "3kd3ke3ke3ke3kj3kn3kn3kq3kr3kt3ky3kz3l13l13l13l23l33l53l63l73l83l93la3la3la3la3la3lb3ld3li3lj3lj3lj",
+          "3ll3ll3lm3lm3lm3lq3lq3lv3lz3m03m33m43m63m63m63m63mc3mc3mf3mh3mi3mj3ml3ml3mo3mq3mq3mq3mr3ms3mx3mx3mz",
+          "3n23n23n23n23n23n43n43n43n53n63na3nb3nb3nb3nc3nc3ne3nj3nj3nk3nn3nn3no3no3np3ns3nt3nt3nx3ny3ny3ny3ny",
+          "3ny3ny3o03o03o13o23o23o73o73o73ob3od3og3og3og3oj3ok3ol3oo3oo3ox3ox3p33p63p63p73p73pc3pc3pi3pj3pj3pr",
+          "3ps3ps3pu3pv3py3py3py3py3pz3pz3pz3pz3pz3pz3pz3pz3pz3q33q73q73q73q73q83q83q83q93q93q93qb3qb3qc3qc3qf",
+          "3qf3qg3qg3qg3qi3qk3qm3qq3qq3qq3qu3qv3qv3qv3qv3qv3qw3qy3qz3qz3r43r43r43r43r73r83r83ra3rd3rd3rd3rg3rh",
+          "3rh3rm3rm3ro3rq3rr3rr3rr3ru3ry3rz3rz3rz3rz3s03s03s03s03s03s03s03s33s53s83s93s93s93sc3sf3sg3si3sl3sn",
+          "3sn3sn3sn3sp3sq3sr3sr3sv3sw3sw3sw3sw3sw3sz3t03t13t33t53t53t63t83t93t93td3te3te3te3tg3tj3tj3tj3tj3tj",
+          "3tj3tk3tl3tm3to3tr3ts3ts3ts3ts3ts3ts3tt3tt3tv3tv3tw3u13u13u33u43u43u53u73ub3uc3ud3uf3uf3uh3uj3uj3uj",
+          "3uk3uk3uo3uo3uo3uq3uq3uq3us3us3us3uv3uw3ux3v13v33v53v73v93v93ve3ve3vf3vf3vk3vk3vk3vn3vo3vq3vs3vt3vt",
+          "3vw3vw3vw3vy3w23w43w53w53w53w63w83wd3we3wf3wf3wg3wg3wg3wg3wg3wg3wg3wj3wk3wp3wp3wp3wt3wt3ww3wz3x23x4",
+          "3x53x63xa3xa3xa3xc3xc3xc3xc3xc3xc3xc3xf3xj3xj3xk3xk3xk3xl3xl3xl3xl3xo3xp3xs3xu3xw3xx3y33y73y83y83y8",
+          "3y83y83y83yb3yb3yc3ye3yf3yf3yh3yh3yh3yh3yi3yj3yk3yl3yl3ym3yo3yp3yp3yp3yr3yr3yr3yt3yx3yx3yy3yz3yz3z0",
+          "3z03z13z13z23z43z93za3zc3zd3zd3zd3zd3zd3zd3zd3zg3zh3zi3zm3zm3zm3zp3zp3zq3zt3zt3zv400403404404404409",
+          "40940940940940940940940940f40g40g40g40i40i40i40i40k40m40m40n40o40p40r40r40u40u40v40v40v40z40z410411",
+          "41241441541541541541541541541541741941b41c41d41e41e41e41e41e41e41e41h41i41l41l41m41n41r41u41w41z420",
+          "42142142142142142142142142142342442542842842a42a42a42a42d42e42e42e42g42i42i42i42j42j42k42n42n42s42s",
+          "42u42x42x43043143643643743c43f43f43f43n43o43q43q43s43s43t43t43t43u43x43y44044244244244444544a44b44b",
+          "44b44c44f44i44k44n44n44o44o44p44t44v44x44y44y44y44y44y44y44y44y44z452452454455455456457457457457457",
+          "45745945b45b45d45d45e45e45e45g45h45i45n45n45o45p45p45p45t45u45u45u45u45u45u45u45u45u45u45u45v45x45x",
+          "45y45z46046346346346346346346346346346346546546746746746746746946a46b46e46e46g46j46l46l46p46p46q46q",
+          "46q46q46q46s46t46t46u46u46u46x46y46z46z46z46z46z46z47147447747747847847847847947c47j47l47m47m47n47o",
+          "47q47q47q47u47u47v47v47v47v47v47w47y47y48348448448448448448548548648748748848848b48b48c48c48d48d48d",
+          "48g48h48h48i48i48i48i48j48k48l48m48m48m48m48n48n48p48q48q48r48r48r48r48r48t48u48w48x48z490492492493",
+          "49349449449649749749849949949b49c49d49d49e49e49g49h49h49i49j49m49n49n49n49n49n49n49n49n49n49n49n49q",
+          "49q49q49r49r49r49r49s49t49u49u49u49v49v49w49w49w49w49y4a24a34a44a44a64a94a94aa4ad4ae4ae4af4ag4ah4ah",
+          "4ai4ai4ai4aj4aj4aj4aj4aj4aj4aj4al4an4ap4aq4as4as4as4as4as4as4as4as4as4at4av4aw4aw4aw4b04b14b14b14b5",
+          "4b84b84ba4bf4bf4bf4bf4bf4bf4bf4bf4bf4bf4bf4bf4bf4bf4bf4bh4bj4bl4bl4bm4bm4bo4bo4bo4bo4bo4bo4bo4bp4br",
+          "4bs4bs4bu4bv4bw4bw4bx4bx4by4by4c04c04c14c44c84ca4ca4ca4cb4cb4cb4cb4cd4cf4cg4ch4ch4cj4ck4ck4cn4cn4cn",
+          "4cp4cq4cs4cs4ct4cu4cw4cw4cx4d24d24d44d64d74d74d84db4db4df4dg4dg4dg4dg4dg4dg4dg4dj4dk4dk4dk4do4do4dp",
+          "4dp4dp4dr4du4dx4dx4e14e24e34e74e74e74e74e94ea4eb4ec4ec4ec4ec4ec4ec4ec4eg4eg4ej4el4el4el4el4el4el4ep",
+          "4ep4es4es4ev4ex4ey4f24f34f44f74f74f84f84f84f84f84f84f84f84f84f84fa4fb4fb4fc4ff4ff4fg4fg4fg4fh4fj4fk",
+          "4fl4fl4fo4fq4ft4fu4fu4fx4fz4fz4fz4g34g34g44g44g44g44g44g44g44g44g44g44g44g44g44g64g84g84g84gd4gd4gh",
+          "4gh4gh4gj4gk4gm4gm4gm4gm4gm4gm4gm4gp4gq4gt4gu4gv4gv4gv4gv4gx4gy4gz4gz4h04h04h04h04h04h04h04h04h04h0",
+          "4h04h24h34h44h44h44h44h44h74h84h94h94h94h94h94h94h94h94hh4hi4hi4hi4hi4hi4hi4hl4hm4hp4hr4hr4hr4hv4hv",
+          "4hv4hw4hw4hw4hw4hw4hz4i04i24i54i54i54i54i54i54i54i54i54i54i54i54i54i54i54i64i84i84i94id4id4id4ie4ie",
+          "4ie4ie4ie4ie4if4ii4ij4ij4im4in4iq4is4iw4iw4iz4iz4j04j14j14j14j14j14j14j14j24j24j44j54j54j64j94ja4ja",
+          "4ja4ja4jd4jd4je4jh4jj4jj4jj4jj4jl4jm4jm4jm4jn4jp4jq4jq4js4jx4jx4jx4jx4jx4jx4jx4jx4jx4jx4jz4k04k04k1",
+          "4k34k44k64k64k64k64k64k64ka4kd4ke4ke4kf4kf4kf4kf4kf4kf4kh4kh4ki4kn4kn4ko4kq4kr4kr4ks4kt4kt4kt4kt4kt",
+          "4kt4kt4kt4kv4kv4kw4kx4kx4kx4kx4kx4l24l24l24l24l54l64l94l94lb4lb4lb4lb4lc4ld4ld4le4lf4li4lj4lk4lk4lo",
+          "4lo4lp4lp4lp4lp4lp4lq4ls4lt4lt4lw4ly4ly4ly4ly4ly4m24m24m24m24m54m64m74m74mb4mb4mb4me4mf4mg4mi4mk4ml",
+          "4ml4ml4ml4mo4mo4mo4mp4mp4mp4mp4mp4mq4mq4mq4mr4mt4mu4mu4mu4mu4mu4mu4mu4mu4mu4mu4mv4mx4mx4mx4mz4mz4n0",
+          "4n34n64n64n74nc4nc4nd4nf4nf4ng4nh4nl4no4np4np4nq4nq4nq4nq4nq4nt4nt4nu4nx4ny4o24o24o54oc4oe4of4og4oh",
+          "4oh4ok4ol4om4om4om4om4om4om4om4om4om4om4om4om4om4oo4oo4oq4ot4ov4ov4ov4ov4oz4oz4p14p14p24p24p24p24p4",
+          "4p54p74pa4pb4pb4pi4pi4pi4pi4pi4pi4pi4pi4pi4pi4pi4pi4pm4pm4pm4pq4pr4pr4pr4pr4pu4pu4px4pz4q24q34q34q4",
+          "4q44q44q44q44q94q94q94q94qe4qe4qe4qe4qe4qe4qf4qh4qi4qj4ql4qm4qn4qn4qn4qn4qn4qn4qn4qp4qq4qw4qy4qz4qz",
+          "4qz4r04r04r04r34r44r44r44r44r44r44r64r94ra4ra4ra4ra4ra4ra4ra4re4re4rg4ri4ri4rj4rj4rj4rj4rj4rj4rj4rn",
+          "4rp4rr4rs4rs4rs4rt4rw4rw4rz4s04s04s14s14s64s64sa4sc4sc4sd4se4sf4sf4sf4sf4sf4sf4sf4sf4sf4sf4sh4sh4si",
+          "4sj4sk4sl4sm4sm4sn4sn4so4so4so4so4ss4ss4sw4sw4sw4sw4sx4sx4sx4sz4sz4t14t14t54t54ta4tb4tb4tb4tb4tb4tb",
+          "4tb4tb4tb4tb4tb4tb4tb4tb4tb4tb4tb4td4te4tf4th4ti4tj4tj4tk4tk4tk4tk4tk4tk4tk4tk4to4tr4ts4tt4tx4tx4tx",
+          "4tx4tz4u04u24u24u64u74u74u74u74u74u74u74u74u74u74u94ua4ua4ub4ub4ub4ud4ue4uf4ug4ug4ug4uj4uj4uk4uk4uk",
+          "4uk4un4up4up4ut4ut4ux4ux4uy4uy4v04v14v24v34v34v34v34v34v34v34v34v44v64v64v74v74v74va4vc4vc4vc4vc4vc",
+          "4vc4vc4vc4vc4vc4vf4vg4vk4vl4vl4vl4vp4vs4vt4vu4vz4vz4vz4w04w04w04w24w74w74w84w84w84w84w84w84w84w84w8",
+          "4w84w84wb4wb4wc4wc4wg4wh4wh4wh4wh4wi4wj4wj4wo4wq4wr4wt4wu4wu4wu4wu4wv4wz4wz4x44x44x44x44x44x44x44x4",
+          "4x44x44x44x44x44x44x74x74x84xa4xb4xc4xd4xd4xd4xf4xf4xm4xm4xo4xp4xp4xp4xp4xq4xs4xv4xv4xw4xx4xx4xy4xz",
+          "4xz4y04y04y04y04y04y04y04y04y04y04y04y04y14y24y44y44y44y54y84y94y94y94y94y94yc4yd4yf4yi4yl4yq4yr4yr",
+          "4yr4yr4yu4yv4yw4yw4yw4yw4yw4yw4yw4yz4yz4z04z54z54z54z54z54z54z54z64z64z84z84z84z94zh4zi4zi4zn4zo4zo",
+          "4zr4zr4zr4zr4zs4zs4zs4zs4zs4zs4zs4zs4zs4zs4zs4zs4zs4zw4zw4zw50050050050050150150150150350350850a50a",
+          "50a50a50c50c50c50e50e50g50j50j50j50m50n50n50n50n50n50o50o50o50q50s50t50x50x50x50x50x50x50x50z510511",
+          "51151451551551651651651651651651651651751951a51c51d51e51f51f51f51f51j51k51o51r51s51t51t51t51t51t51t",
+          "51t51t51t51t51t51x51x52052052152252252252252652852a52a52b52b52c52d52e52g52k52k52n52n52o52o52p52p52p",
+          "52p52p52p52p52p52p52p52p52r52t52w52y52y52y52y53553753953953f53g53g53g53i53l53l53l53l53l53l53l53n53o",
+          "53p53p53u53u53u53u53u53u53u53w53y54354354354354354354354654754754a54c54c54c54e54f54f54f54g54h54h54h",
+          "54h54h54h54h54h54h54p54q54q54q54q54s54t54u54y54z54z54z54z54z54z55155255355355555755d55d55d55d55d55k",
+          "55k55l55m55m55m55q55q55q55s55t55u55v55v55z56256256256456456556856856956a56d56d56i56i56i56i56i56i56i",
+          "56k56l56q56q56r56r56r56r56t56t56z57257257357557857857957d57e57e57e57e57e57e57e57e57e57e57g57i57i57i",
+          "57k57m57n57n57n57p57q57r57w57w57w58058158358558558958958a58a58a58a58a58a58a58a58a58a58c58d58e58g58i",
+          "58j58j58j58s58s58s58s58u58w58w58z59159659659659659659659659659659659659659759859a59e59e59e59e59f59f",
+          "59f59j59j59m59m59n59o59o59s59t59u59v59w59w59w59x59x59z5a15a25a25a65a65a65a95aa5ab5ab5ab5ab5ab5ab5af",
+          "5ai5aj5ak5as5as5at5ax5ax5ay5ay5ay5b25b65b75b75b75b75b75b75b75b75b75ba5ba5ba5bb5bb5bb5bd5bd5be5bg5bg",
+          "5bg5bg5bg5bg5bj5bo5bp5bp5bp5bs5bw5bx5bz5c15c25c25c35c35c35c35c35c45c65ca5cb5cb5cc5cc5cc5cc5cc5cc5ce",
+          "5cg5cg5cj5cl5co5cp5cu5cu5cu5cu5cz5cz5cz5cz5cz5cz5cz5cz5d05d05d35d35d65d65d75d85d85d85d85d85da5de5df",
+          "5dg5dh5dh5dh5dk5dl5dn5do5dp5dq5dq5dq5dq5dt5dv5dv5dv5dv5dv5dv5dv5dv5dv5dv5dy5dz5dz5e15e45e45e45e65e7",
+          "5e85e85ec5ei5ej5em5er5er5er5er5er5et5ev5ey5ez5f05f05f05f05f05f05f05f05f05f05f45f55f85f85f95f95f95f9",
+          "5f95fd5fh5fm5fn5fn5fo5fp5fq5fr5fs5fu5fv5fw5fw5fw5fw5fw5fx5g05g15g45g55g55g75g85g95ga5ge5ge5gh5gi5gk",
+          "5gl5gm5gs5gs5gs5gs5gs5gs5gs5gs5gs5gs5gs5gs5gs5gs5gs5gs5gs5gs5gu5gv5gw5gy5gz5gz5h05h05h15h15h15h15h1",
+          "5h25h35h35h35h85hc5he5hj5hn5ho5ho5ho5ho5ho5ho5ho5ho5ho5ho5ho5ho5ho5hq5hx5i15i15i15i65i95ia5if5ij5ij",
+          "5ik5ik5ik5ik5ik5il5im5im5io5io5io5iq5is5it5it5it5it5iv5j05j15j25j55j65j65j95jb5jb5jc5je5jf5jg5jg5jg",
+          "5jg5jh5jj5jk5jk5jp5jp5jp5jt5jt5jx5jx5jy5jy5jy5jy5k25k75k75k75k95k95kd5kf5kj5kk5kl5kl5kl5kl5ku5ku5ku",
+          "5ky5l35l35l35l35l45l75lb5lc5lc5lf5lf5lh5lh5lh5lh5lh5lh5lh5lh5lh5lk5ll5ln5lq5ly5lz5lz5m85md5md5md5md",
+          "5md5md5md5md5md5md5md5md5md5md5md5me5mk5mm5mm5mm5mm5mo5mo5mq5mq5mq5mt5mu5mv5mv5mx5n25n35n45n45n45n8",
+          "5n95n95n95n95n95n95n95n95n95n95n95n95na5nh5ni5ni5ni5nl5nl5nl5nq5nz5o05o05o05o55o55o55o55o55o55o85ob",
+          "5od5od5od5oe5oe5oe5oe5oe5oe5oe5oe5oe5oe5oe5og5oi5on5on5oo5os5ou5ow5p15p15p35p35p45p45pa5pa5pa5pa5pa",
+          "5pa5pa5pa5pa5pa5pa5pd5pe5pe5pj5pj5pj5pj5pl5pm5pm5ps5pt5pv5pv5q15q65q65q65q65q65q65q65q65q65q65q65q6",
+          "5q65q65qa5qa5qc5qe5qf5qf5qf5qf5qf5qf5qf5qf5ql5qo5qo5qs5qu5qv5qz5r05r05r25r25r25r25r25r25r25r25r65r8",
+          "5r95ra5ra5rb5rb5rb5rb5rb5rb5re5rf5rh5rk5rk5rm5rn5rn5rw5rw5ry5ry5ry5ry5ry5ry5ry5ry5s25s65s75sb5sf5sg",
+          "5sk5so5sp5sr5st5st5st5su5su5su5su5su5sw5sx5sy5sy5t05t25t35t35t35t35t35t35t35t55t65tb5tc5tg5tg5tl5tp",
+          "5tq5tq5tq5tr5tt5tu5tz5tz5tz5tz5tz5tz5tz5tz5tz5tz5tz5tz5tz5tz5u85u85u85u85ub5ug5uh5uh5uh5up5us5ut5uu",
+          "5uv5uv5uv5uv5uv5uz5uz5uz5v35v45v45v45v45v45v45v55v75vc5vd5vd5vf5vl5vm5vp5vq5vr5vr5vr5vr5vr5vr5vr5vr",
+          "5vu5vw5w05w05w05w75w95wb5wg5wg5wh5wh5wi5wk5wn5wn5wn5wn5wn5wn5ww5ww5ww5ww5ww5x35x55x95xe5xe5xi5xi5xj",
+          "5xj5xj5xn5xq5xs5xs5xs5xs5xw5xz5y05y15y15y35y45y55ya5ya5yd5yd5yf5yf5yi5yj5yl5yn5yn5yo5yo5yo5yo5yo5yo",
+          "5yr5z15za5zk5zk5zk5zk5zk5zk5zk5zk5zn5zn5zt5zt5zt5zt5zt5zt5zw60060560960b60d60e60g60g60g60g60g60g60p",
+          "60p60p60p60r60x60y60y61661761761761c61c61c61c61c61e61g61g61l61l61l61u61x61y621622622623623625626627",
+          "62c62h62h62h62h62h62h62h62h62j62k62l62l62q62r62t63363463463a63d63d63d63d63g63l63m63m63m63t63u63v63w",
+          "63y63z63z64264864964964964964c64d64h64i64i64m64o64o64q64r64r64t64z652654654655655655655655655658659",
+          "65965d65e65i65i65n65v65w65w65w65x66166166166166166366a66d66e66j66j66m66p66w66x66x66y671674675676676",
+          "67667667667967967h67m67n67r67x67x68068268268268268268268568a68b68b68b68n68n68r68t68t68v68w68y68y68y",
+          "68y68y68y69269669e69g69j69m69u69u69u69u69u69x6a26a36a36a36a56ab6ac6ac6ac6ac6ae6ag6aj6ak6al6al6al6al",
+          "6al6an6ap6aq6aq6aq6aq6aq6au6au6au6aw6ay6ay6az6az6az6az6az6az6az6az6b66b86b86b86bc6bk6bk6bk6bl6bm6bm",
+          "6bm6bp6bq6bu6bu6bv6bv6bw6by6bz6bz6bz6c36c46c46c46c86cd6cd6ch6ci6ci6cq6cr6cr6cr6cr6cr6cr6cu6cu6cv6cv",
+          "6cw6cy6cy6d06d06d06d96dg6dh6di6dn6dn6dn6dn6dn6dn6dn6dn6dn6do6dr6du6dw6dw6dw6dw6e46e56e96ed6ee6ei6ej",
+          "6ej6ej6ej6ej6em6er6f06f16f16f16f16fa6fa6ff6ff6ff6ff6ff6ff6ff6ff6ff6ff6fj6fo6fo6fo6fo6fo6fx6fx6fx6fx",
+          "6fx6g46g56g66g66g86ga6gb6gb6gf6gj6gj6gk6gk6go6gs6gt6gu6h16h16h56h56h76hf6hg6hg6hg6hg6ht6ht6hv6hw6hy",
+          "6ib6ib6ic6ic6ic6ic6ic6ic6ic6ic6ic6if6ij6il6il6il6il6ip6iu6ix6iy6j36j36j86j86j86jc6jh6jh6jl6jl6jq6jz",
+          "6k46k46k46k46k46k46k46kd6kd6kd6kd6kd6kh6kl6kl6km6km6km6km6kq6ku6ky6l06l06l06l56l96l96l96lb6lc6lc6ld",
+          "6ld6ld6lh6li6li6lp6lu6lv6lw6ly6m26m36m36m46m46m56m56m56m56m56me6me6me6mh6mi6ml6ml6mm6mw6n16n16n16n1",
+          "6n16n16n16na6ne6nj6nn6nn6nx6nx6nx6nx6nx6nx6nx6nx6nx6o16o66o66o66o86oa6oa6od6of6oj6oo6oo6oo6ot6ot6ot",
+          "6ot6p16p26pa6pe6pk6po6pp6pp6pp6pp6pt6py6py6py6q16q26q26q56q66q76q76q76qp6qt6qt6qu6qu6qu6qu6qx6qx6qy",
+          "6qy6r36r76rg6rl6ro6rq6rq6rq6rq6rq6rq6rs6ru6rz6sh6sm6sm6sm6sm6sm6sm6sm6sq6sv6sv6sz6t46t86th6ti6ti6ti",
+          "6ti6tr6tr6tr6tr6tr6tr6tr6tv6u06u06u06u76u76u96ue6ui6un6un6up6ur6uu6uv6uz6uz6v56v96ve6vj6vn6vy6vz6w1",
+          "6w16w56wa6wf6wf6wf6wf6wo6wr6wr6wx6wz6x56x66x86x86xb6xb6xb6xb6xb6xb6xb6xb6xb6xb6xb6xf6xk6xk6xk6xo6xt",
+          "6xx6y26y46y76y76y76y76y76y76yb6yg6yg6yg6yk6yp6yt6yy6z16z36z36z36z36z36z36z66za6zb6zb6zc6zc6zc6zc6zc",
+          "6zk6zl6zl6zt6zu70370870870870870870870g70h70h70h70l70l70l70t70z71471471471871d71d71h71m71p71q71u720",
+          "72072072072072472972972972d72h72r72w72w72w72w72w72w73073573973e73r73s73s73s73s74174174174174574974e",
+          "74j74s74s74x74x74x74x74x74x75175575675675675675675675f75f75j75j75t75x75x76276276276276976n76p76p76p",
+          "76p76p76p76x76y76y76y77177477677777l77l77l77p77p77u77u77u77u78378378778c78c78h78h78p78s78u78z78z793",
+          "79b79b79d79m79m79m79u79x79z7a47ac7ag7ai7ai7ai7ai7ai7aq7ar7bd7be7be7be7be7be7be7bi7bi7bi7bn7bn7bw7bw",
+          "7bz7ca7ca7ca7ca7ca7ce7ch7cj7cj7cj7cw7cw7d17d67d67d67dd7de7df7df7dn7do7dv7e17e27e57eb7eb7eb7eb7eb7ef",
+          "7ek7ek7ek7et7et7f47f77f77f77f77f77f77fg7g07g37g37g37g37g37gc7gc7gc7gc7gl7gl7gt7gu7gu7gz7gz7gz7gz7gz",
+          "7gz7gz7gz7gz7gz7h37h67h87h87hc7hp7hq7hq7hv7hv7hy7i47i47i47i47ib7id7ig7il7im7j07j07j07j07j07j47j97jw",
+          "7jw7jw7jy7k47k47k97ke7ki7ki7ki7ks7ks7ks7ks7l17l57la7la7le7le7li7li7lo7lo7lo7lx7m17m67m67mf7mj7mk7mk",
+          "7mk7mo7n27n27n27n27n67n97ne7nk7no7np7np7np7ny7o77o77ol7ol7ol7ou7ou7p27p37pa7ph7ph7ph7ph7ph7pj7pq7pq",
+          "7ps7pu7pz7qd7qd7qd7qd7qv7r97r97r97r97rb7rb7rh7rh7rl7rm7rr7s37sn7sv7sw7ta7ta7ta7ta7ta7ta7tj7ts7u17u6",
+          "7u67u67uf7ui7ui7ux7v27vb7vb7vj7vk7vk7vt7vy7w77w77w77w77w77wk7wk7wu7wx7wy7x37x37x77xk7xl7xl7xp7xz7xz",
+          "7xz7y27y37y37y87y87yh7yh7yh7yq7z27zd7zk7zm7zq7zr7zr7zr7zv80080880980980c80i80i80n80n80w81581981e81e",
+          "81h81m81q82082182182182a82o82o82o82o83683k83o84684g84g84g84g84p84p85685b85c85c85f85k85l85l85l85l86h",
+          "86h86h86h86h86l87887b87d87d87d87g87h87m88988988i88i88r88v88v89589589589589589e89n89r8a18aa8aw8b68b6",
+          "8bs8bs8c28c28c28cb8cs8cy8cy8db8dg8dp8du8du8e38eq8ez8ez8ez8f88fv8fv8fv8fv8gd8gr8gr8h98hn8hn8hn8hn8hn",
+          "8hn8hr8hw8hw8i98ij8ij8ij8ij8iw8jf8jf8ji8jo8jx8ka8kk8kk8lb8lg8lg8ly8m68mg8ml8n88n88n88n88nc8nh8nh8nh",
+          "8np8o48o48od8p48p98q58qe8qw8r18r18r18r18rs8rx8rx8s68s68si8st8st8t18t28uu8v38v38vq8vq8vu8wc8wm8xi8xq",
+          "8yn8zj8zj90f90o91k91o92p92p96096w98199t9fe9gj9kz9p19sl9vra13appapyayu",
+        ].join(""),
+        S = [];
+      for (let i = 0; i < D.length; i += 3) S.push(parseInt(D.substr(i, 3), 36) / 8);
+      // ===== Estadísticos descriptivos: n, media y desviación estándar poblacional =====
+      const AUS = 38,
+        CUT = 1404.5,
+        N = S.length,
+        mean = S.reduce((a, b) => a + b) / N,
+        sd = Math.sqrt(S.reduce((a, b) => a + (b - mean) ** 2, 0) / N);
+      // Mediana, máximo, atajo de DOM ($) y formato numérico es-PE (f)
+      const med = S[N >> 1],
+        mxv = S[N - 1],
+        $ = (id) => document.getElementById(id),
+        f = (x, d = 1) => x.toLocaleString("es-PE", { minimumFractionDigits: d, maximumFractionDigits: d });
+      // ===== Tarjetas de indicadores (KPIs) =====
+      $("k").innerHTML = [
+        [N.toLocaleString("es-PE"), "Postulantes con puntaje"],
+        [f(mean, 2), "Media"],
+        [f(sd, 2), "Desv. estándar (σ)"],
+        [f(med, 2), "Mediana"],
+        [f(mxv, 2), "Puntaje máximo"],
+        [f((mxv - mean) / sd, 2) + " σ", "Máximo estandarizado"],
+        [S.filter((x) => x >= CUT).length, "Vacantes (corte " + f(CUT, 1) + ")"],
+      ]
+        .map((a) => `<div class="c"><b>${a[0]}</b><span>${a[1]}</span></div>`)
+        .join("");
+      // Lectura de variables CSS (colores) para el gráfico SVG
+      const sv = document.documentElement,
+        cs = (n) => getComputedStyle(sv).getPropertyValue(n);
+      // Estado actual de los controles
+      function st() {
+        return {
+          bw: +$("bw").value,
+          mn: +$("mn").value,
+          mx: +$("mx").value,
+          ax: $("ax").value,
+          log: $("sc").value == "log",
+        };
+      }
+      // ===== Redibuja histograma, tablas y tooltips (se ejecuta con cada cambio) =====
+      function draw() {
+        const s = st();
+        if (s.mx <= s.mn + s.bw) {
+          s.mx = s.mn + s.bw * 2;
+        }
+        $("vb").textContent = s.bw;
+        $("vmn").textContent = s.mn;
+        $("vmx").textContent = s.mx;
+        // Clases: lo = inicio, nb = n.º de clases, B = frecuencias, V = vacantes por clase
+        const lo = Math.floor(s.mn / s.bw) * s.bw,
+          nb = Math.ceil((s.mx - lo) / s.bw),
+          B = Array(nb).fill(0),
+          V = Array(nb).fill(0);
+        for (const x of S) {
+          const i = Math.floor((x - lo) / s.bw);
+          if (i >= 0 && i < nb) {
+            B[i]++;
+            if (x >= CUT) V[i]++;
+          }
+        }
+        const inR = S.filter((x) => x >= lo && x < lo + nb * s.bw).length;
+        // Geometría del gráfico y escalas X e Y (lineal o logarítmica)
+        const W = 820,
+          H = 440,
+          m = { l: 52, r: 14, t: 16, b: 44 },
+          pw = W - m.l - m.r,
+          ph = H - m.t - m.b,
+          X = (v) => m.l + ((v - lo) / (nb * s.bw)) * pw;
+        const mxc = Math.max(...B, 1),
+          Y = (v) =>
+            s.log
+              ? m.t + ph * (1 - Math.log10(Math.max(v, 0.5) / 0.5) / Math.log10((mxc * 1.15) / 0.5))
+              : m.t + ph * (1 - v / (mxc * 1.12));
+        // Curva normal (pdf) y densidad kernel gaussiana (ancho de banda de Silverman)
+        const pdf = (x) => Math.exp(-0.5 * ((x - mean) / sd) ** 2) / (sd * Math.sqrt(2 * Math.PI)),
+          h = 1.06 * sd * Math.pow(N, -0.2);
+        const kd = (x) => {
+          let t = 0;
+          for (let i = 0; i < N; i++) {
+            const u = (x - S[i]) / h;
+            if (u > -4 && u < 4) t += Math.exp(-0.5 * u * u);
+          }
+          return t / (N * h * Math.sqrt(2 * Math.PI));
+        };
+        // Colores
+        const bar = cs("--bar"),
+          hi = cs("--hi"),
+          mu = cs("--mu"),
+          tx = cs("--tx");
+        let o = "";
+        // Eje Y: cuadrícula y marcas
+        const ticks = s.log
+          ? [1, 10, 100, 1000].filter((v) => v <= mxc * 1.15)
+          : Array.from({ length: 6 }, (_, i) => Math.round((mxc * 1.12 * i) / 5 / 10) * 10);
+        for (const t of ticks)
+          o += `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(t)}" y2="${Y(t)}" stroke="${mu}" opacity=".2"/><text x="${m.l - 6}" y="${Y(t) + 4}" text-anchor="end" font-size="11" fill="${mu}">${t}</text>`;
+        // Eje X: marcas en puntaje bruto o en σ
+        const xs =
+          s.ax == "z"
+            ? (() => {
+                const a = [];
+                for (let z = Math.ceil((lo - mean) / sd); z <= (lo + nb * s.bw - mean) / sd; z++)
+                  a.push([mean + z * sd, z + "σ"]);
+                return a;
+              })()
+            : (() => {
+                const a = [],
+                  st_ = Math.max(s.bw, Math.ceil((nb * s.bw) / 9 / 50) * 50);
+                for (let v = Math.ceil(lo / st_) * st_; v <= lo + nb * s.bw; v += st_) a.push([v, v]);
+                return a;
+              })();
+        for (const [v, l] of xs)
+          o += `<line x1="${X(v)}" x2="${X(v)}" y1="${m.t + ph}" y2="${m.t + ph + 4}" stroke="${mu}"/><text x="${X(v)}" y="${m.t + ph + 17}" text-anchor="middle" font-size="11" fill="${mu}">${l}</text>`;
+        o += `<text x="${m.l + pw / 2}" y="${H - 6}" text-anchor="middle" font-size="12" fill="${mu}">${s.ax == "z" ? "Puntaje estandarizado (σ)" : "Puntaje"}</text><text transform="rotate(-90)" x="${-(m.t + ph / 2)}" y="14" text-anchor="middle" font-size="12" fill="${mu}">Frecuencia${s.log ? " (log)" : ""}</text>`;
+        // Barras del histograma (rojo = vacantes) y etiquetas de frecuencia
+        const bwp = Math.max(pw / nb - 1, 1);
+        B.forEach((c, i) => {
+          const x0 = X(lo + i * s.bw),
+            y = Y(c),
+            base = m.t + ph;
+          if (c > 0) {
+            const nv = $("va").checked ? V[i] : 0,
+              hv = (nv / c) * (base - y);
+            o += `<g data-i="${i}"><rect x="${x0}" y="${y}" width="${bwp}" height="${base - y}" fill="${bar}"/>${nv ? `<rect x="${x0}" y="${base - hv}" width="${bwp}" height="${hv}" fill="${hi}"/>` : ""}</g>`;
+            if ($("lb").checked && bwp > 13)
+              o += `<text x="${x0 + bwp / 2}" y="${y - 3}" text-anchor="middle" font-size="${bwp > 24 ? 10 : 8.5}" fill="${tx}">${c}</text>`;
+          } else
+            o += `<g data-i="${i}"><rect x="${x0}" y="${m.t}" width="${bwp}" height="${ph}" fill="transparent"/></g>`;
+        });
+        // Líneas de media y ±σ
+        if ($("sg").checked) {
+          for (const k of [-3, -2, -1, 0, 1, 2, 3, 4]) {
+            const v = mean + k * sd;
+            if (v > lo && v < lo + nb * s.bw)
+              o += `<line x1="${X(v)}" x2="${X(v)}" y1="${m.t}" y2="${m.t + ph}" stroke="${mu}" stroke-dasharray="${k ? "2 4" : "5 3"}" opacity="${k ? 0.45 : 0.8}"/>${k == 0 ? `<text x="${X(v) + 4}" y="${m.t + 11}" font-size="10" fill="${mu}">media</text>` : ""}`;
+          }
+        }
+        // Curvas superpuestas (escaladas a frecuencia)
+        const path = (fn) => {
+          let d = "";
+          for (let v = lo; v <= lo + nb * s.bw; v += Math.max(s.bw / 4, 4)) {
+            const y = Y(fn(v) * N * s.bw);
+            if (!(y >= m.t && y <= m.t + ph)) continue;
+            d += (d ? "L" : "M") + X(v).toFixed(1) + " " + y.toFixed(1);
+          }
+          return d;
+        };
+        if ($("nm").checked)
+          o += `<path d="${path(pdf)}" fill="none" stroke="${cs("--nm")}" stroke-width="2"/>`;
+        if ($("kd").checked)
+          o += `<path d="${path(kd)}" fill="none" stroke="${cs("--kd")}" stroke-width="2"/>`;
+        // Pinta el SVG, el título y la nota del gráfico
+        $("ch").innerHTML = o;
+        $("ct").textContent =
+          `Histograma de puntajes (clases de ${s.bw} pts, ${f(lo, 0)}–${f(lo + nb * s.bw, 0)})`;
+        $("nt").innerHTML =
+          `${inR.toLocaleString("es-PE")} de ${N.toLocaleString("es-PE")} postulantes en el rango visible.` +
+          ($("nm").checked ? ' <span style="color:var(--nm)">━</span> Normal' : "") +
+          ($("kd").checked ? ' <span style="color:var(--kd)">━</span> Kernel' : "") +
+          ($("va").checked ? ' <span style="color:var(--hi)">■</span> Vacantes' : "");
+        // Tabla de frecuencias por rango
+        $("tb").innerHTML =
+          "<tr><th>Rango</th><th>Estud.</th><th>%</th><th>σ (inicio)</th></tr>" +
+          B.map((c, i) => [c, i])
+            .filter((a) => a[0] > 0 || lo + a[1] * s.bw >= 1300)
+            .reverse()
+            .map(
+              ([c, i]) =>
+                `<tr><td>${f(lo + i * s.bw, 0)} a ${f(lo + (i + 1) * s.bw - 0.01, 2)}</td><td>${c}</td><td>${f((c / N) * 100, 2)}</td><td>${f((lo + i * s.bw - mean) / sd, 2)}</td></tr>`,
+            )
+            .join("");
+        // Tooltip al pasar el cursor o tocar una barra
+        document.querySelectorAll("#ch g").forEach((g) => {
+          const i = +g.dataset.i;
+          const sh = (e) => {
+            const t = $("tip");
+            t.style.display = "block";
+            t.style.left = Math.min(e.clientX + 12, innerWidth - 190) + "px";
+            t.style.top = e.clientY + 12 + "px";
+            const a = lo + i * s.bw;
+            t.innerHTML = `${f(a, 0)}–${f(a + s.bw, 0)} pts<br>${B[i]} estud. · ${f((a - mean) / sd, 2)}σ a ${f((a + s.bw - mean) / sd, 2)}σ${V[i] ? `<br>${V[i]} con vacante` : ""}`;
+          };
+          g.onmousemove = sh;
+          g.onmouseleave = () => ($("tip").style.display = "none");
+          g.onclick = (e) => sh(e);
+        });
+      }
+      // ===== Cola superior: 12 puntajes más altos y brechas entre ellos =====
+      const tp = [...S].slice(-12).reverse(),
+        gaps = tp.slice(0, -1).map((v, i) => [v, tp[i + 1], v - tp[i + 1]]);
+      const mg = gaps.reduce((a, b) => (b[2] > a[2] ? b : a));
+      $("gp").innerHTML =
+        "<tr><th>Puntaje</th><th>σ</th><th>Brecha al siguiente</th></tr>" +
+        tp
+          .map(
+            (v, i) =>
+              `<tr${gaps[i] && gaps[i] == mg ? ' style="color:var(--hi);font-weight:600"' : ""}><td>${f(v, 3)}</td><td>${f((v - mean) / sd, 2)}</td><td>${gaps[i] ? f(gaps[i][2], 3) : "—"}</td></tr>`,
+          )
+          .join("");
+      $("gn").textContent =
+        `Mayor brecha entre los 12 puntajes más altos: ${f(mg[2], 3)} pts (de ${f(mg[1], 3)} a ${f(mg[0], 3)}). Observación descriptiva; este tablero no establece causas.`;
+      // ===== Eventos =====
+      document.querySelectorAll("input,select").forEach((e) => e.addEventListener("input", draw));
+      // Botones: restablecer y zoom a la cola superior
+      $("rs").onclick = () => {
+        $("bw").value = 50;
+        $("mn").value = 250;
+        $("mx").value = 1800;
+        $("ax").value = "p";
+        $("sc").value = "lin";
+        draw();
+      };
+      $("tail").onclick = () => {
+        $("mn").value = Math.floor((mean + 3 * sd) / 10) * 10;
+        $("mx").value = 1800;
+        $("bw").value = 25;
+        $("sc").value = "lin";
+        draw();
+      };
+      // Redibuja al cambiar el tema claro/oscuro y primera ejecución
+      matchMedia("(prefers-color-scheme:dark)").addEventListener("change", draw);
+      draw();
+    </script>
+  </body>
+</html>
